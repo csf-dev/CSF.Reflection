@@ -224,9 +224,9 @@ namespace Test.CSF.Reflection
     [Test]
     public void TestGetTypeFromAppDomain()
     {
-      Type targetType = Reflect.TypeFromAppDomain("System.Configuration.ConnectionStringsSection");
+      Type targetType = Reflect.TypeFromAppDomain("System.Collections.Specialized.NameValueCollection");
       Assert.IsNotNull(targetType);
-      Assert.AreEqual(typeof(System.Configuration.ConnectionStringsSection), targetType, "Correct type");
+      Assert.AreEqual(typeof(System.Collections.Specialized.NameValueCollection), targetType, "Correct type");
     }
 
     #endregion
