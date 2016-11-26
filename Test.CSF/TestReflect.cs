@@ -28,7 +28,6 @@ using System;
 using NUnit.Framework;
 using CSF.Reflection;
 using System.Reflection;
-using Test.CSF.Mocks;
 
 namespace Test.CSF.Reflection
 {

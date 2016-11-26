@@ -43,15 +43,9 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Mocks\SampleObject.cs" />
-    <Compile Include="Reflection\TestTypeExtensions.cs" />
-    <Compile Include="Reflection\TestAssemblyExtensions.cs" />
-    <Compile Include="..\Common\CommonAssemblyInfo.cs">
-      <Link>CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Reflection\TestReflect.cs" />
-    <Compile Include="TestConfiguration.cs" />
+    <Compile Include="TestAssemblyExtensions.cs" />
+    <Compile Include="TestReflect.cs" />
+    <Compile Include="TestTypeExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -61,19 +55,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Reflection\" />
-    <Folder Include="Mocks\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Reflection\TestResource.txt">
+    <EmbeddedResource Include="TestResource.txt">
       <LogicalName>TestResource.txt</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reflection\TestResourceType.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Test.CSF.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
+    <EmbeddedResource Include="TestResourceType.txt">
+      <LogicalName>Test.CSF.Reflection.TestResourceType.txt</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
