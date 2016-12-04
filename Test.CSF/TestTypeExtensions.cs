@@ -39,9 +39,9 @@ namespace Test.CSF.Reflection
     #region tests
     
     [Test]
-    public void TestGetSubclasses()
+    public void GetImplementors_returns_all_subclasses()
     {
-      var types = typeof(Foo).GetSubclasses(Assembly.GetExecutingAssembly());
+      var types = typeof(Foo).GetImplementors(Assembly.GetExecutingAssembly());
       
       Assert.AreEqual(2, types.Count(), "Correct count");
       

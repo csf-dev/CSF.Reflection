@@ -218,19 +218,7 @@ namespace Test.CSF.Reflection
 
     #endregion
 
-    #region other tests
-
-    [Test]
-    public void TestGetTypeFromAppDomain()
-    {
-      Type targetType = Reflect.TypeFromAppDomain("System.Collections.Specialized.NameValueCollection");
-      Assert.IsNotNull(targetType);
-      Assert.AreEqual(typeof(System.Collections.Specialized.NameValueCollection), targetType, "Correct type");
-    }
-
-    #endregion
-
-    #region mocks
+    #region stubs
 
     public class StubType
     {
@@ -257,7 +245,6 @@ namespace Test.CSF.Reflection
 
       public int ValueTypeMethod()
       {
-
         return this.ValueTypeProperty;
       }
 

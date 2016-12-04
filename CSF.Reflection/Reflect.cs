@@ -407,54 +407,6 @@ namespace CSF.Reflection
     #region other reflection-related functionality
 
     /// <summary>
-    /// Similar to <c>Type.GetType</c> but searches every assembly within an <see cref="AppDomain"/>.
-    /// </summary>
-    /// <returns>
-    /// A <see cref="Type"/>.
-    /// </returns>
-    /// <param name='typeName'>
-    /// The full name of the type to find and return, does not need to be assembly-qualified.
-    /// </param>
-    public static Type TypeFromAppDomain(string typeName)
-    {
-      return TypeFromAppDomain(typeName, AppDomain.CurrentDomain);
-    }
-
-    /// <summary>
-    /// Similar to <c>Type.GetType</c> but searches every assembly within an <see cref="AppDomain"/>.
-    /// </summary>
-    /// <returns>
-    /// A <see cref="Type"/>.
-    /// </returns>
-    /// <param name='domain'>
-    /// The AppDomain to search.
-    /// </param>
-    /// <param name='typeName'>
-    /// The full name of the type to find and return, does not need to be assembly-qualified.
-    /// </param>
-    public static Type TypeFromAppDomain(string typeName, AppDomain domain)
-    {
-      if(domain == null)
-      {
-        throw new ArgumentNullException(nameof(domain));
-      }
-      if(typeName == null)
-      {
-        throw new ArgumentNullException(nameof(typeName));
-      }
-      if(typeName.Length == 0)
-      {
-        throw new ArgumentException(ExceptionMessages.TypeNameMustNotBeEmpty, nameof(typeName));
-      }
-
-      return domain.GetAssemblies()
-        .Where(x => !x.IsDynamic)
-        .SelectMany(s => s.GetExportedTypes())
-        .Where(x => x.FullName == typeName)
-        .SingleOrDefault();
-    }
-
-    /// <summary>
     /// Determines whether the application is executing using the Mono framework.  This uses the supported manner of
     /// detecting mono.
     /// </summary>

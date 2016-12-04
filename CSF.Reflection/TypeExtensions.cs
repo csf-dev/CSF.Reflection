@@ -39,12 +39,11 @@ namespace CSF.Reflection
     #region extension methods
 
     /// <summary>
-    /// Gets a collection of <see cref="System.Type"/> that are subclasses of the given <paramref name="type"/>.
+    /// Gets a collection of <c>System.Type</c> that are implementors (subclasses) of the given <paramref name="type"/>.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// This method only searches for subclasses within a specific assembly.  This overload looks within a given
-    /// <paramref name="searchAssembly"/>.
+    /// This method only searches for subclasses within a specific given assembly.
     /// </para>
     /// </remarks>
     /// <returns>
@@ -56,7 +55,7 @@ namespace CSF.Reflection
     /// <param name='searchAssembly'>
     /// The <see cref="Assembly"/> in which to search for subclasses of <paramref name="type"/>.
     /// </param>
-    public static IEnumerable<Type> GetSubclasses(this Type type, Assembly searchAssembly)
+    public static IEnumerable<Type> GetImplementors(this Type type, Assembly searchAssembly)
     {
       if(searchAssembly == null)
       {
