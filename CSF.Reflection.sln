@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CSF.Reflection", "Test.CSF\Test.CSF.Reflection.csproj", "{11DCF35A-6E2A-4C62-B536-14B83FF5AE07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.CSF.Reflection", "Test.CSF.Reflection\Test.CSF.Reflection.csproj", "{11DCF35A-6E2A-4C62-B536-14B83FF5AE07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSF.Reflection", "CSF.Reflection\CSF.Reflection.csproj", "{275413F6-0651-4AD4-A426-07EDA165C07E}"
 EndProject
