@@ -34,22 +34,6 @@ namespace Test.CSF.Reflection
   [TestFixture]
   public class TestReflect
   {
-    #region fields
-
-    private StubType TestStub;
-
-    #endregion
-
-    #region setup
-
-    [SetUp]
-    public void Setup()
-    {
-      this.TestStub = new StubType();
-    }
-
-    #endregion
-
     #region static reflection tests
 
     [Test]
@@ -127,90 +111,6 @@ namespace Test.CSF.Reflection
     {
       MemberInfo member;
       member = Reflect.Member<StubType>(x => x.Action());
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("Action", member.Name, "Member name");
-    }
-
-    #endregion
-
-    #region static reflection extension method tests
-
-    [Test]
-    public void TestReferenceTypeFieldExtension()
-    {
-      FieldInfo member;
-      member = this.TestStub.GetField(x => x.ReferenceTypeField);
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ReferenceTypeField", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestValueTypeFieldExtension()
-    {
-      FieldInfo member;
-      member = this.TestStub.GetField(x => x.ValueTypeField);
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ValueTypeField", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestReferenceTypePropertyExtension()
-    {
-      PropertyInfo member;
-      member = this.TestStub.GetProperty(x => x.ReferenceTypeProperty);
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ReferenceTypeProperty", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestValueTypePropertyExtension()
-    {
-      PropertyInfo member;
-      member = this.TestStub.GetProperty(x => x.ValueTypeProperty);
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ValueTypeProperty", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestReferenceTypeMethodExtension()
-    {
-      MethodInfo member;
-      member = this.TestStub.GetMethod(x => x.ReferenceTypeMethod());
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ReferenceTypeMethod", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestValueTypeMethodExtension()
-    {
-      MethodInfo member;
-      member = this.TestStub.GetMethod(x => x.ValueTypeMethod());
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ValueTypeMethod", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestActionMethodExtension()
-    {
-      MethodInfo member;
-      member = this.TestStub.GetMethod(x => x.Action());
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("Action", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestMemberExtension()
-    {
-      MemberInfo member;
-      member = this.TestStub.GetMember(x => x.Action());
 
       Assert.IsNotNull(member, "Member nullability");
       Assert.AreEqual("Action", member.Name, "Member name");
