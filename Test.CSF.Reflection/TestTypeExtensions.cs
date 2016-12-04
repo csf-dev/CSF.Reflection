@@ -1,5 +1,5 @@
 //
-// TypeExtensions.cs
+// TestTypeExtensions.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
@@ -25,52 +25,44 @@
 // THE SOFTWARE.
 
 using System;
+using NUnit.Framework;
+using CSF.Reflection;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
-namespace CSF.Reflection
+namespace Test.CSF.Reflection
 {
-  /// <summary>
-  /// Helper type containing extension methods for <see cref="System.Type"/>.
-  /// </summary>
-  public static class TypeExtensions
+  [TestFixture]
+  public class TestTypeExtensions
   {
-    #region extension methods
-
-    /// <summary>
-    /// Gets a collection of <c>System.Type</c> that are implementors (subclasses) of the given <paramref name="type"/>.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// This method only searches for subclasses within a specific given assembly.
-    /// </para>
-    /// </remarks>
-    /// <returns>
-    /// A collection of <see cref="System.Type"/>.
-    /// </returns>
-    /// <param name='type'>
-    /// The type for which to find subclasses.
-    /// </param>
-    /// <param name='searchAssembly'>
-    /// The <see cref="Assembly"/> in which to search for subclasses of <paramref name="type"/>.
-    /// </param>
-    public static IEnumerable<Type> GetImplementors(this Type type, Assembly searchAssembly)
+    #region tests
+    
+    [Test]
+    public void GetImplementors_returns_all_subclasses()
     {
-      if(searchAssembly == null)
-      {
-        throw new ArgumentNullException (nameof(searchAssembly));
-      }
-      else if(type == null)
-      {
-        throw new ArgumentNullException (nameof(type));
-      }
-
-      return searchAssembly
-        .GetTypes()
-        .Where(x => type.IsAssignableFrom(x) && x != type);
+      var types = typeof(Foo).GetImplementors(Assembly.GetExecutingAssembly());
+      
+      Assert.AreEqual(2, types.Count(), "Correct count");
+      
+      Assert.IsTrue(types.Contains(typeof(Bar)), "Contains 'bar'");
+      Assert.IsTrue(types.Contains(typeof(Baz)), "Contains 'baz'");
     }
 
+    #endregion
+    
+    #region contained classes
+    
+    class Foo {}
+    
+    class Bar : Foo, IMarker {}
+    
+    class Baz : Bar, IMarker<int> {}
+
+    interface IMarker {}
+
+    interface IMarker<T> {}
+    
     #endregion
   }
 }
