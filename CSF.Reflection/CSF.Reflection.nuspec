@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>CSF.Reflection</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>CSF.Reflection</title>
     <authors>CSF Software Ltd</authors>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -13,5 +13,6 @@
   </metadata>
   <files>
     <file src="bin/Release/CSF.Reflection.dll" target="lib/net45" />
+    <file src="bin/Release/CSF.Reflection.xml" target="lib/net45" />
   </files>
 </package>
