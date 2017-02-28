@@ -49,6 +49,32 @@ namespace Test.CSF.Reflection
       Assert.IsTrue(types.Contains(typeof(Baz)), "Contains 'baz'");
     }
 
+    [Test]
+    public void GetDefaultValue_gets_correct_value_for_value_type()
+    {
+      // Arrange
+      
+
+      // Act
+      var result = typeof(int).GetDefaultValue();
+
+      // Assert
+      Assert.AreEqual(0, result);
+    }
+
+    [Test]
+    public void GetDefaultValue_gets_correct_value_for_reference_type()
+    {
+      // Arrange
+
+
+      // Act
+      var result = typeof(Foo).GetDefaultValue();
+
+      // Assert
+      Assert.AreEqual(null, result);
+    }
+
     #endregion
     
     #region contained classes
