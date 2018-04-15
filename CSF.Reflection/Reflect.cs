@@ -152,6 +152,9 @@ namespace CSF.Reflection
     /// <typeparam name='TObject'>
     /// The type that contains the member which we are interested in.
     /// </typeparam>
+    /// <typeparam name='TReturn'>
+    /// The return type of the property which we are reflecting.
+    /// </typeparam>
     /// <exception cref='ArgumentNullException'>
     /// Is thrown when an argument passed to a method is invalid because it is <see langword="null" /> .
     /// </exception>
@@ -198,6 +201,9 @@ namespace CSF.Reflection
     /// <typeparam name='TObject'>
     /// The type that contains the member which we are interested in.
     /// </typeparam>
+    /// <typeparam name='TReturn'>
+    /// The return type of the field which we are reflecting.
+    /// </typeparam>
     /// <exception cref='ArgumentNullException'>
     /// Is thrown when an argument passed to a method is invalid because it is <see langword="null" /> .
     /// </exception>
@@ -243,6 +249,9 @@ namespace CSF.Reflection
     /// </param>
     /// <typeparam name='TObject'>
     /// The type that contains the member which we are interested in.
+    /// </typeparam>
+    /// <typeparam name='TReturn'>
+    /// The return type of the method which we are reflecting.
     /// </typeparam>
     /// <exception cref='ArgumentNullException'>
     /// Is thrown when an argument passed to a method is invalid because it is <see langword="null" /> .

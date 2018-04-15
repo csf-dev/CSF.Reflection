@@ -71,6 +71,21 @@ namespace CSF.Reflection
         .Where(x => type.IsAssignableFrom(x) && x != type);
     }
 
+    /// <summary>
+    /// Gets the default value for the given type.
+    /// </summary>
+    /// <returns>The default value.</returns>
+    /// <param name="type">Type.</param>
+    public static object GetDefaultValue(this Type type)
+    {
+      if(type == null)
+      {
+        throw new ArgumentNullException(nameof(type));
+      }
+
+      return type.IsValueType? Activator.CreateInstance(type) : null;
+    }
+
     #endregion
   }
 }
