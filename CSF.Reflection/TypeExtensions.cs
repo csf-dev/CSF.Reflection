@@ -55,6 +55,7 @@ namespace CSF.Reflection
     /// <param name='searchAssembly'>
     /// The <see cref="Assembly"/> in which to search for subclasses of <paramref name="type"/>.
     /// </param>
+    [Obsolete("Instead, use a specification to filter a collection of types by implementors")]
     public static IEnumerable<Type> GetImplementors(this Type type, Assembly searchAssembly)
     {
       if(searchAssembly == null)
