@@ -37,20 +37,19 @@
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Package>nunit</Package>
     </Reference>
+    <Reference Include="CSF.Specifications">
+      <HintPath>..\packages\CSF.Specifications.1.0.0\lib\net45\CSF.Specifications.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestAssemblyExtensions.cs" />
     <Compile Include="TestReflect.cs" />
     <Compile Include="TestTypeExtensions.cs" />
     <Compile Include="AssemblyTypeProviderTests.cs" />
+    <Compile Include="DerivesFromSpecificationTests.cs" />
+    <Compile Include="DerivesFromOpenGenericInterfaceSpecificationTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\CSF.Reflection\CSF.Reflection.csproj">
-      <Project>{275413F6-0651-4AD4-A426-07EDA165C07E}</Project>
-      <Name>CSF.Reflection</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TestResource.txt">
       <LogicalName>TestResource.txt</LogicalName>
@@ -61,5 +60,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CSF.Reflection\CSF.Reflection.csproj">
+      <Project>{275413F6-0651-4AD4-A426-07EDA165C07E}</Project>
+      <Name>CSF.Reflection</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
