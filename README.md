@@ -1,27 +1,47 @@
 # CSF.Reflection
-This library introduces a small number of utility classes to assist in tasks
-related to reflection.
+This is a very small library designed to assist in using **reflection** in .NET projects.
 
 ## Static reflection
-The most interesting of the types included is `Reflect`.  It is used to perform
-static reflection, which is a compiler & refactor-safe alternative to getting
-members by their string names.  In the following example, the two lines of code
-shown will both produce the same results.
+Static reflection uses Linq Expressions to get references to members, without
+needing to resort to string names.  This keeps your code safe across
+refactoring/renaming.  Here's an example:
 
 ```csharp
-var myProperty = typeof(MyClass).GetProperty("MyProperty");
-var myProperty = Reflect.Property<MyClass>(x => x.MyProperty);
+using System.Reflection;
+using CSF.Reflection;
+
+PropertyInfo prop = Reflect.Property<MyClass>(x => x.MyProperty);
 ```
 
-## Getting the text of a resource file
-A simple extension method to `System.Reflection.Assembly` is
-`GetManifestResourceText`.  This gets a manifest resource and reads all string
-content from inside, returning it.
+## Getting types from an assembly
+The abstract type `CSF.Reflection.AssemblyTypeProvider` is intended to be **subclassed** in
+your own projects.  It will return a collection of all of the [exported types] which are in
+the same assembly as your subclass is declared.  This collection of types may then be *filtered*
+using specifications (below).
 
-## Getting implementors of a type
-Another simple/convenience extension method (for `System.Type`) is
-`GetImplementors`.  This returns a collection of types which are derived from
-the given type.
+[exported types]: https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.getexportedtypes?view=netframework-4.7.2
+
+## Specifications for types
+A few specification classes are provided for filtering types (such as those returned by an `AssemblyTypeProvider`).
+These are built using [CSF.Specfications] and may be applied to a Linq `.Where()` method.
+Here is an example of these two concepts together, to search an assembly for all concrete
+implementations of an interface:
+
+```csharp
+new MyAssemblyTypeProvider()
+    .GetTypes()
+    .Where(new IsConcreteSpecification())
+    .Where(new DerivesFromSpecification(typeof(IMyInterface)))
+```
+
+This logic may then be put into a class of its own, deriving from `CSF.Reflection.IGetsTypes`.  This new
+class will then encapsulate the logic required to get all of those concrete implementation types.
+
+[CSF.Specfications]: https://github.com/csf-dev/CSF.Specifications
+
+## Getting the text of a resource file
+Provided for convenience, an extension method to `System.Reflection.Assembly`: `GetManifestResourceText`.
+This is a shortcut for reading the text/string content of an embedded manifest resource.
 
 ## Open source license
 All source files within this project are released as open source software,
