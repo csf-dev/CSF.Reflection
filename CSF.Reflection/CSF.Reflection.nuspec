@@ -10,6 +10,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Utilities to make reflection (particularly static reflection) simpler.</description>
     <copyright>Copyright 2016</copyright>
+    <dependencies>
+      <dependency id="CSF.Specifications" version="[1.0.0,2.0.0)" />
+    </dependencies>
   </metadata>
   <files>
     <file src="bin/Release/CSF.Reflection.dll" target="lib/net45" />
