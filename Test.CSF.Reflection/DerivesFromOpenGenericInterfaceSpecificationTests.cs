@@ -1,10 +1,10 @@
-//
-// TestTypeExtensions.cs
+﻿//
+// DerivesFromOpenGenericInterfaceSpecificationTests.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2015 CSF Software Limited
+// Copyright (c) 2019 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,75 +23,43 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 using System;
-using NUnit.Framework;
 using CSF.Reflection;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
+using NUnit.Framework;
 
-namespace Test.CSF.Reflection
+namespace Test.CSF
 {
   [TestFixture]
-  public class TestTypeExtensions
+  public class DerivesFromOpenGenericInterfaceSpecificationTests
   {
-    #region tests
-    
     [Test]
-    public void GetImplementors_returns_all_subclasses()
-    {
-#pragma warning disable CS0618 // Type or member is obsolete
-      var types = typeof(Foo).GetImplementors(Assembly.GetExecutingAssembly());
-#pragma warning restore CS0618 // Type or member is obsolete
-
-      Assert.AreEqual(2, types.Count(), "Correct count");
-      
-      Assert.IsTrue(types.Contains(typeof(Bar)), "Contains 'bar'");
-      Assert.IsTrue(types.Contains(typeof(Baz)), "Contains 'baz'");
-    }
-
-    [Test]
-    public void GetDefaultValue_gets_correct_value_for_value_type()
+    public void Matches_returns_true_for_a_derived_class()
     {
       // Arrange
-      
+      var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
 
       // Act
-      var result = typeof(int).GetDefaultValue();
+      var result = sut.Matches(typeof(Derived));
 
       // Assert
-      Assert.AreEqual(0, result);
+      Assert.That(result, Is.True);
     }
 
     [Test]
-    public void GetDefaultValue_gets_correct_value_for_reference_type()
+    public void Matches_returns_false_for_a_non_derived_class()
     {
       // Arrange
-
+      var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
 
       // Act
-      var result = typeof(Foo).GetDefaultValue();
+      var result = sut.Matches(typeof(NotDerived));
 
       // Assert
-      Assert.AreEqual(null, result);
+      Assert.That(result, Is.False);
     }
 
-    #endregion
-    
-    #region contained classes
-    
-    class Foo {}
-    
-    class Bar : Foo, IMarker {}
-    
-    class Baz : Bar, IMarker<int> {}
-
-    interface IMarker {}
-
-    interface IMarker<T> {}
-    
-    #endregion
+    internal interface IBase<T> {}
+    internal class Derived : IBase<string> {}
+    internal class NotDerived {}
   }
 }
-

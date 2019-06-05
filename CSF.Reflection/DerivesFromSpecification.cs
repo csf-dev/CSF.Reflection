@@ -1,10 +1,10 @@
 ﻿//
-// AssemblyInfo.cs
+// DerivesFromSpecification.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2019 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +24,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+using System.Linq.Expressions;
+using CSF.Specifications;
 
-[assembly: CLSCompliant(true)]
-[assembly: AssemblyTitle("CSF.Reflection")]
-[assembly: AssemblyDescription("Utility types to aid reflection")]
-[assembly: AssemblyCompany("CSF Software Limited")]
-[assembly: AssemblyCopyright("CSF Software Limited")]
+namespace CSF.Reflection
+{
+  /// <summary>
+  /// Specification for a <c>System.Type</c> which matches types which derive from a given type.
+  /// </summary>
+  public class DerivesFromSpecification : SpecificationExpression<Type>
+  {
+    readonly Type baseType;
 
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-#else
-[assembly: AssemblyConfiguration("Release")]
-#endif
+    /// <summary>
+    /// Gets the match expression.
+    /// </summary>
+    /// <returns>The expression.</returns>
+    public override Expression<Func<Type, bool>> GetExpression()
+    {
+      return x => baseType.IsAssignableFrom(x);
+    }
 
-[assembly: AssemblyVersion("1.0.4")]
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:CSF.Reflection.DerivesFromSpecification"/> class.
+    /// </summary>
+    /// <param name="baseType">Base type.</param>
+    public DerivesFromSpecification(Type baseType)
+    {
+      if(baseType == null)
+        throw new ArgumentNullException(nameof(baseType));
+      this.baseType = baseType;
+    }
+  }
+}

@@ -23,4 +23,7 @@ Resource name:{0}</value>
     <value>The expression must indicate a member.
 Expression:{0}</value>
   </data>
+  <data name="BaseTypeMustBeOpenGeneric" xml:space="preserve">
+    <value>The base type must be an open generic type.</value>
+  </data>
 </root>

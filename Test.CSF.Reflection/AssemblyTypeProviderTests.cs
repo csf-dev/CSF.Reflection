@@ -1,10 +1,10 @@
 ﻿//
-// AssemblyInfo.cs
+// AssemblyTypeProviderTests.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2019 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,18 +25,24 @@
 // THE SOFTWARE.
 using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
+using CSF.Reflection;
+using NUnit.Framework;
 
-[assembly: CLSCompliant(true)]
-[assembly: AssemblyTitle("CSF.Reflection")]
-[assembly: AssemblyDescription("Utility types to aid reflection")]
-[assembly: AssemblyCompany("CSF Software Limited")]
-[assembly: AssemblyCopyright("CSF Software Limited")]
+namespace Test.CSF
+{
+  [TestFixture]
+  public class AssemblyTypeProviderTests
+  {
+    [Test]
+    public void GetTypes_returns_all_types_in_the_current_assembly()
+    {
+      // Act
+      var result = new TestAssemblyTypeProvider().GetTypes();
 
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-#else
-[assembly: AssemblyConfiguration("Release")]
-#endif
+      // Assert
+      Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
+    }
 
-[assembly: AssemblyVersion("1.0.4")]
+    internal class TestAssemblyTypeProvider : AssemblyTypeProvider {}
+  }
+}

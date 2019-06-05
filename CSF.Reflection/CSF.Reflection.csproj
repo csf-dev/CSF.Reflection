@@ -10,7 +10,7 @@
     <RootNamespace>CSF.Reflection</RootNamespace>
     <AssemblyName>CSF.Reflection</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <ReleaseVersion>1.0.3</ReleaseVersion>
+    <ReleaseVersion>1.0.4</ReleaseVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\CSF-Software-OSS.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
@@ -37,6 +37,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="CSF.Specifications">
+      <HintPath>..\packages\CSF.Specifications.1.0.0\lib\net45\CSF.Specifications.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -46,6 +49,12 @@
     <Compile Include="Resources\ExceptionMessages.Designer.cs">
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="IGetsTypes.cs" />
+    <Compile Include="AssemblyTypeProvider.cs" />
+    <Compile Include="IsConcreteSpecification.cs" />
+    <Compile Include="DerivesFromSpecification.cs" />
+    <Compile Include="IsInterfaceSpecification.cs" />
+    <Compile Include="DerivesFromOpenGenericInterfaceSpecification.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -59,5 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CSF.Reflection.nuspec" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

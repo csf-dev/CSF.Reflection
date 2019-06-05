@@ -1,10 +1,10 @@
 ﻿//
-// AssemblyInfo.cs
+// AssemblyTypeProvider.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2019 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +24,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
-[assembly: CLSCompliant(true)]
-[assembly: AssemblyTitle("CSF.Reflection")]
-[assembly: AssemblyDescription("Utility types to aid reflection")]
-[assembly: AssemblyCompany("CSF Software Limited")]
-[assembly: AssemblyCopyright("CSF Software Limited")]
-
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-#else
-[assembly: AssemblyConfiguration("Release")]
-#endif
-
-[assembly: AssemblyVersion("1.0.4")]
+namespace CSF.Reflection
+{
+  /// <summary>
+  /// Implementation of <see cref="IGetsTypes"/> which gets all of the exported types in an assembly.
+  /// This class is intended to be subclassed in your own projects, providing access to the types in that
+  /// same assembly as your subclass.
+  /// </summary>
+  public abstract class AssemblyTypeProvider : IGetsTypes
+  {
+    /// <summary>
+    /// Get a collection of types representing those which are in the same assembly as the current instance.
+    /// </summary>
+    /// <returns>The types.</returns>
+    public virtual IReadOnlyCollection<Type> GetTypes()
+    {
+      return GetType().Assembly.GetExportedTypes();
+    }
+  }
+}
