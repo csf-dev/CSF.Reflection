@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>CSF.Reflection</id>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <title>CSF.Reflection</title>
     <authors>CSF Software Ltd</authors>
     <license type="expression">MIT</license>
