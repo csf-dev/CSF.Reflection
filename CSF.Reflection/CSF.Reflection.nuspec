@@ -2,10 +2,10 @@
 <package>
   <metadata>
     <id>CSF.Reflection</id>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <title>CSF.Reflection</title>
     <authors>CSF Software Ltd</authors>
-    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://github.com/csf-dev/CSF.Reflection</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Utilities to make reflection (particularly static reflection) simpler.</description>
