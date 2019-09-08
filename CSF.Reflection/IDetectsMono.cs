@@ -1,10 +1,10 @@
 ﻿//
-// AssemblyInfo.cs
+// IDetectsMono.cs
 //
 // Author:
-//       Craig Fowler <craig@craigfowler.me.uk>
+//       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2016 Craig Fowler
+// Copyright (c) 2019 CSF Software Limited
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +24,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-
-[assembly: CLSCompliant(true)]
-[assembly: AssemblyTitle("CSF.Reflection")]
-[assembly: AssemblyDescription("Utility types to aid reflection")]
-[assembly: AssemblyCompany("CSF Software Limited")]
-[assembly: AssemblyCopyright("CSF Software Limited")]
-
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-#else
-[assembly: AssemblyConfiguration("Release")]
-#endif
-
-[assembly: AssemblyVersion("1.0.4")]
+namespace CSF.Reflection
+{
+  /// <summary>
+  /// A service which detects/indicates whether or not the Mono framework is in use or not.
+  /// </summary>
+  public interface IDetectsMono
+  {
+    /// <summary>
+    /// Gets a value indicating whether the current runtime is the Mono framework.
+    /// </summary>
+    /// <returns><c>true</c>, if the current execution environment is using the Mono framework, <c>false</c> otherwise.</returns>
+    bool IsExecutingWithMono();
+  }
+}

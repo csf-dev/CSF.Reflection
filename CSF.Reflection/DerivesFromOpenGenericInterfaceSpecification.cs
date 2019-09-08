@@ -26,6 +26,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using CSF.Specifications;
 
 namespace CSF.Reflection
@@ -44,8 +45,8 @@ namespace CSF.Reflection
     /// <returns>The expression.</returns>
     public override Expression<Func<Type, bool>> GetExpression()
     {
-      return x => (from iface in x.GetInterfaces()
-                   where iface.IsGenericType
+      return x => (from iface in x.GetTypeInfo().ImplementedInterfaces
+                   where iface.GetTypeInfo().IsGenericType
                    let genericIface = iface.GetGenericTypeDefinition()
                    where genericIface == baseType
                    select iface)
@@ -60,9 +61,9 @@ namespace CSF.Reflection
     {
       if(baseType == null)
         throw new ArgumentNullException(nameof(baseType));
-      if(!baseType.IsGenericTypeDefinition)
-        throw new ArgumentException(Resources.ExceptionMessages.BaseTypeMustBeOpenGeneric, nameof(baseType));
-      
+      if(!baseType.GetTypeInfo().IsGenericTypeDefinition)
+        throw new ArgumentException("The base type must be an open generic type.", nameof(baseType));
+
       this.baseType = baseType;
     }
   }

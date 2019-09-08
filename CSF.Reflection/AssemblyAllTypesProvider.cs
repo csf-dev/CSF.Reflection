@@ -1,10 +1,10 @@
-//
-// TypeExtensions.cs
+﻿//
+// AssemblyTypeProvider.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2015 CSF Software Limited
+// Copyright (c) 2019 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,29 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace CSF.Reflection
 {
   /// <summary>
-  /// Helper type containing extension methods for <see cref="System.Type"/>.
+  /// Implementation of <see cref="IGetsTypes"/> which gets all of the types defined in an assembly.
+  /// This includes those which would not normally be 'visible' outside of the assembly.
+  /// This class is intended to be subclassed in your own projects, providing access to the types in that
+  /// same assembly as your subclass.
   /// </summary>
-  public static class TypeExtensions
+  public abstract class AssemblyAllTypesProvider : IGetsTypes
   {
     /// <summary>
-    /// Gets the default value for the given type.
+    /// Get a collection of types representing those which are in the same assembly as the current instance.
     /// </summary>
-    /// <returns>The default value.</returns>
-    /// <param name="type">Type.</param>
-    public static object GetDefaultValue(this Type type)
+    /// <returns>The types.</returns>
+    public virtual IReadOnlyCollection<Type> GetTypes()
     {
-      var typeInfo = type?.GetTypeInfo() ?? throw new ArgumentNullException(nameof(type));
-      return typeInfo.IsValueType ? Activator.CreateInstance(type) : null;
+      var assembly = GetType().GetTypeInfo().Assembly;
+      return assembly.DefinedTypes.Select(x => x.AsType()).ToArray();
     }
   }
 }
-

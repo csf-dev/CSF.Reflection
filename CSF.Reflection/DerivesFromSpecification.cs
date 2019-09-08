@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
 using CSF.Specifications;
 
 namespace CSF.Reflection
@@ -42,7 +43,7 @@ namespace CSF.Reflection
     /// <returns>The expression.</returns>
     public override Expression<Func<Type, bool>> GetExpression()
     {
-      return x => baseType.IsAssignableFrom(x);
+      return x => baseType.GetTypeInfo().IsAssignableFrom(x.GetTypeInfo());
     }
 
     /// <summary>

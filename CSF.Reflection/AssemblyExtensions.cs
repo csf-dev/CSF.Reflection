@@ -26,7 +26,6 @@
 using System;
 using System.Reflection;
 using System.IO;
-using CSF.Reflection.Resources;
 using System.Resources;
 
 
@@ -37,8 +36,6 @@ namespace CSF.Reflection
   /// </summary>
   public static class AssemblyExtensions
   {
-    #region embedded resources
-
     /// <summary>
     /// Extension method reads a text-based resource stored within an assembly.
     /// </summary>
@@ -53,27 +50,20 @@ namespace CSF.Reflection
     /// </param>
     public static string GetManifestResourceText(this Assembly assembly, string resourceName)
     {
-      string output;
-
       if(assembly == null)
-      {
         throw new ArgumentNullException(nameof(assembly));
-      }
 
-      using(Stream resourceStream = assembly.GetManifestResourceStream(resourceName))
+      using(var resourceStream = assembly.GetManifestResourceStream(resourceName))
       {
         if(resourceStream == null)
+          throw new MissingManifestResourceException($@"The requested manifest resource was not found in assembly '{assembly.FullName}'.
+Resource name:{resourceName}");
+
+        using (var reader = new StreamReader(resourceStream))
         {
-          var message = String.Format(ExceptionMessages.ResourceNotPresent,
-                                      resourceName,
-                                      assembly.FullName);
-          throw new MissingManifestResourceException(message);
+          return reader.ReadToEnd();
         }
-
-        output = GetResourceText(resourceStream);
       }
-
-      return output;
     }
 
     /// <summary>
@@ -93,55 +83,12 @@ namespace CSF.Reflection
     /// </param>
     public static string GetManifestResourceText(this Assembly assembly, Type type, string resourceName)
     {
-      string output;
-
-      if(assembly == null)
-      {
-        throw new ArgumentNullException(nameof(assembly));
-      }
-      else if(type == null)
-      {
+      if(type == null)
         throw new ArgumentNullException(nameof(type));
-      }
 
-      using(Stream resourceStream = assembly.GetManifestResourceStream(type, resourceName))
-      {
-        if(resourceStream == null)
-        {
-          var message = String.Format(ExceptionMessages.ResourceNotPresent,
-                                      String.Format("{0}.{1}", type.Namespace, resourceName),
-                                      assembly.FullName);
-          throw new MissingManifestResourceException(message);
-        }
-
-        output = GetResourceText(resourceStream);
-      }
-
-      return output;
+      var fullResourceName = $"{type.Namespace}.{resourceName}";
+      return GetManifestResourceText(assembly, fullResourceName);
     }
-
-    /// <summary>
-    /// Private helper method gets the textual content of a stream.
-    /// </summary>
-    /// <returns>
-    /// The text content of the stream.
-    /// </returns>
-    /// <param name='resourceStream'>
-    /// A resource stream.
-    /// </param>
-    private static string GetResourceText(Stream resourceStream)
-    {
-      string output;
-
-      using(TextReader reader = new StreamReader(resourceStream))
-      {
-        output = reader.ReadToEnd();
-      }
-
-      return output;
-    }
-
-    #endregion
   }
 }
 

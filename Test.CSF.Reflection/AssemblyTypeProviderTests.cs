@@ -43,6 +43,6 @@ namespace Test.CSF
       Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
     }
 
-    internal class TestAssemblyTypeProvider : AssemblyTypeProvider {}
+    internal class TestAssemblyTypeProvider : AssemblyExportedTypesProvider {}
   }
 }
