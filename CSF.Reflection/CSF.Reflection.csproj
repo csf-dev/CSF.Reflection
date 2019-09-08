@@ -2,15 +2,32 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
+    <PackageVersion>2.0.0</PackageVersion>
+    <Authors>CSF Software Ltd</Authors>
+    <ReleaseVersion>2.0.0</ReleaseVersion>
+    <PackageId>CSF.Reflection</PackageId>
+    <Title>CSF.Reflection</Title>
+    <Description>Utilities to make reflection (particularly static reflection) simpler.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/csf-dev/CSF.Reflection</RepositoryUrl>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\CSF-Software-OSS.snk</AssemblyOriginatorKeyFile>
+    <PackOnBuild>true</PackOnBuild>
   </PropertyGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Remove="Resources\ExceptionMessages.resx" />
-  </ItemGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DocumentationFile>bin\Debug\netstandard1.0\CSF.Reflection.xml</DocumentationFile>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType></DebugType>
+    <DocumentationFile>bin\Release\netstandard1.0\CSF.Reflection.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CSF.Specifications" Version="1.1.0" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Resources\ExceptionMessages2.Designer.cs" />
+    <None Remove="CSF.Reflection.nuspec" />
   </ItemGroup>
 </Project>
