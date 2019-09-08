@@ -25,6 +25,8 @@
 // THE SOFTWARE.
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace CSF.Reflection
 {
@@ -41,7 +43,8 @@ namespace CSF.Reflection
     /// <returns>The types.</returns>
     public virtual IReadOnlyCollection<Type> GetTypes()
     {
-      return GetType().Assembly.GetExportedTypes();
+      var assembly = GetType().GetTypeInfo().Assembly;
+      return assembly.ExportedTypes.ToArray();
     }
   }
 }

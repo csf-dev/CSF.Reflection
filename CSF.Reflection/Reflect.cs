@@ -28,7 +28,6 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using CSF.Reflection.Resources;
 
 namespace CSF.Reflection
 {
@@ -339,28 +338,19 @@ namespace CSF.Reflection
     private static MemberInfo Member(Expression expression)
     {
       if(expression == null)
-      {
         throw new ArgumentNullException(nameof(expression));
-      }
 
       if(expression is UnaryExpression)
-      {
         return Member(((UnaryExpression) expression).Operand);
-      }
 
       if(expression is MemberExpression)
-      {
         return ((MemberExpression) expression).Member;
-      }
-      else if(expression is MethodCallExpression)
-      {
+
+      if(expression is MethodCallExpression)
         return ((MethodCallExpression) expression).Method;
-      }
-      else
-      {
-        string message = String.Format(ExceptionMessages.ExpressionMustIndicateMember, expression.ToString());
-        throw new ArgumentException(message, nameof(expression));
-      }
+
+      throw new ArgumentException($@"The expression must indicate a member.
+Expression:{expression}", nameof(expression));
     }
     
     #endregion

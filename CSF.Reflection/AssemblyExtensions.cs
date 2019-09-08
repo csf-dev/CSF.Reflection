@@ -26,7 +26,6 @@
 using System;
 using System.Reflection;
 using System.IO;
-using CSF.Reflection.Resources;
 using System.Resources;
 
 
@@ -63,12 +62,8 @@ namespace CSF.Reflection
       using(Stream resourceStream = assembly.GetManifestResourceStream(resourceName))
       {
         if(resourceStream == null)
-        {
-          var message = String.Format(ExceptionMessages.ResourceNotPresent,
-                                      resourceName,
-                                      assembly.FullName);
-          throw new MissingManifestResourceException(message);
-        }
+          throw new MissingManifestResourceException($@"The requested manifest resource was not found in assembly '{assembly.FullName}'.
+Resource name:{resourceName}");
 
         output = GetResourceText(resourceStream);
       }
@@ -93,31 +88,21 @@ namespace CSF.Reflection
     /// </param>
     public static string GetManifestResourceText(this Assembly assembly, Type type, string resourceName)
     {
-      string output;
-
       if(assembly == null)
-      {
         throw new ArgumentNullException(nameof(assembly));
-      }
-      else if(type == null)
-      {
+      if(type == null)
         throw new ArgumentNullException(nameof(type));
-      }
 
-      using(Stream resourceStream = assembly.GetManifestResourceStream(type, resourceName))
+      var fullResourceName = $"{type.Namespace}.{resourceName}";
+
+      using(Stream resourceStream = assembly.GetManifestResourceStream(fullResourceName))
       {
         if(resourceStream == null)
-        {
-          var message = String.Format(ExceptionMessages.ResourceNotPresent,
-                                      String.Format("{0}.{1}", type.Namespace, resourceName),
-                                      assembly.FullName);
-          throw new MissingManifestResourceException(message);
-        }
+          throw new MissingManifestResourceException($@"The requested manifest resource was not found in assembly '{assembly.FullName}'.
+Resource name:{fullResourceName}");
 
-        output = GetResourceText(resourceStream);
+        return GetResourceText(resourceStream);
       }
-
-      return output;
     }
 
     /// <summary>

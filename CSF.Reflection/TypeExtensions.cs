@@ -79,12 +79,8 @@ namespace CSF.Reflection
     /// <param name="type">Type.</param>
     public static object GetDefaultValue(this Type type)
     {
-      if(type == null)
-      {
-        throw new ArgumentNullException(nameof(type));
-      }
-
-      return type.IsValueType? Activator.CreateInstance(type) : null;
+      var typeInfo = type?.GetTypeInfo() ?? throw new ArgumentNullException(nameof(type));
+      return typeInfo.IsValueType ? Activator.CreateInstance(type) : null;
     }
 
     #endregion
