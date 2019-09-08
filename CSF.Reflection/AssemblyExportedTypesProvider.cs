@@ -35,7 +35,7 @@ namespace CSF.Reflection
   /// This class is intended to be subclassed in your own projects, providing access to the types in that
   /// same assembly as your subclass.
   /// </summary>
-  public abstract class AssemblyTypeProvider : IGetsTypes
+  public abstract class AssemblyExportedTypesProvider : IGetsTypes
   {
     /// <summary>
     /// Get a collection of types representing those which are in the same assembly as the current instance.
