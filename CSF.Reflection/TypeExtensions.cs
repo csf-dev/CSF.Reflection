@@ -39,40 +39,6 @@ namespace CSF.Reflection
     #region extension methods
 
     /// <summary>
-    /// Gets a collection of <c>System.Type</c> that are implementors (subclasses) of the given <paramref name="type"/>.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// This method only searches for subclasses within a specific given assembly.
-    /// </para>
-    /// </remarks>
-    /// <returns>
-    /// A collection of <see cref="System.Type"/>.
-    /// </returns>
-    /// <param name='type'>
-    /// The type for which to find subclasses.
-    /// </param>
-    /// <param name='searchAssembly'>
-    /// The <see cref="Assembly"/> in which to search for subclasses of <paramref name="type"/>.
-    /// </param>
-    [Obsolete("Instead, use a specification to filter a collection of types by implementors")]
-    public static IEnumerable<Type> GetImplementors(this Type type, Assembly searchAssembly)
-    {
-      if(searchAssembly == null)
-      {
-        throw new ArgumentNullException (nameof(searchAssembly));
-      }
-      else if(type == null)
-      {
-        throw new ArgumentNullException (nameof(type));
-      }
-
-      return searchAssembly
-        .GetTypes()
-        .Where(x => type.IsAssignableFrom(x) && x != type);
-    }
-
-    /// <summary>
     /// Gets the default value for the given type.
     /// </summary>
     /// <returns>The default value.</returns>

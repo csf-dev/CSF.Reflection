@@ -37,19 +37,6 @@ namespace Test.CSF.Reflection
   public class TestTypeExtensions
   {
     #region tests
-    
-    [Test]
-    public void GetImplementors_returns_all_subclasses()
-    {
-#pragma warning disable CS0618 // Type or member is obsolete
-      var types = typeof(Foo).GetImplementors(Assembly.GetExecutingAssembly());
-#pragma warning restore CS0618 // Type or member is obsolete
-
-      Assert.AreEqual(2, types.Count(), "Correct count");
-      
-      Assert.IsTrue(types.Contains(typeof(Bar)), "Contains 'bar'");
-      Assert.IsTrue(types.Contains(typeof(Baz)), "Contains 'baz'");
-    }
 
     [Test]
     public void GetDefaultValue_gets_correct_value_for_value_type()
