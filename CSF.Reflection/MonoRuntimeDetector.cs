@@ -1,10 +1,10 @@
-//
-// TypeExtensions.cs
+﻿//
+// MonoDetector.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2015 CSF Software Limited
+// Copyright (c) 2019 CSF Software Limited
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,27 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 using System;
-using System.Reflection;
-
 namespace CSF.Reflection
 {
   /// <summary>
-  /// Helper type containing extension methods for <see cref="System.Type"/>.
+  /// Implementation of <see cref="IDetectsMono"/> which uses the mechanism documented here:
+  /// https://www.mono-project.com/docs/faq/technical/#how-can-i-detect-if-am-running-in-mono
   /// </summary>
-  public static class TypeExtensions
+  public class MonoRuntimeDetector : IDetectsMono
   {
+    const string MONO_TYPE = "Mono.Runtime";
+
     /// <summary>
-    /// Gets the default value for the given type.
+    /// Determines whether the application is executing using the Mono framework.  This uses the supported manner of
+    /// detecting mono.
     /// </summary>
-    /// <returns>The default value.</returns>
-    /// <param name="type">Type.</param>
-    public static object GetDefaultValue(this Type type)
+    /// <returns>
+    /// <c>true</c> if the application is executing on the mono framework; otherwise, <c>false</c>.
+    /// </returns>
+    public bool IsExecutingWithMono()
     {
-      var typeInfo = type?.GetTypeInfo() ?? throw new ArgumentNullException(nameof(type));
-      return typeInfo.IsValueType ? Activator.CreateInstance(type) : null;
+      return Type.GetType(MONO_TYPE) != null;
     }
   }
 }
-

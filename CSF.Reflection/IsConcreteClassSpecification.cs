@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 using System;
 using System.Linq.Expressions;
+using System.Reflection;
 using CSF.Specifications;
 
 namespace CSF.Reflection
@@ -32,7 +33,7 @@ namespace CSF.Reflection
   /// <summary>
   /// Specification for a <c>System.Type</c> which matches concrete types (non-abstract classes).
   /// </summary>
-  public class IsConcreteSpecification : SpecificationExpression<Type>
+  public class IsConcreteClassSpecification : SpecificationExpression<Type>
   {
     /// <summary>
     /// Gets the match expression.
@@ -40,7 +41,7 @@ namespace CSF.Reflection
     /// <returns>The expression.</returns>
     public override Expression<Func<Type, bool>> GetExpression()
     {
-      return x => x.IsClass && !x.IsAbstract;
+      return x => x.GetTypeInfo().IsClass && !x.GetTypeInfo().IsAbstract;
     }
   }
 }
