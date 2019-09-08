@@ -1,10 +1,10 @@
-//
-// TypeExtensions.cs
+﻿//
+// IDetectsMono.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2015 CSF Software Limited
+// Copyright (c) 2019 CSF Software Limited
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 using System;
-using System.Reflection;
-
 namespace CSF.Reflection
 {
   /// <summary>
-  /// Helper type containing extension methods for <see cref="System.Type"/>.
+  /// A service which detects/indicates whether or not the Mono framework is in use or not.
   /// </summary>
-  public static class TypeExtensions
+  public interface IDetectsMono
   {
     /// <summary>
-    /// Gets the default value for the given type.
+    /// Gets a value indicating whether the current runtime is the Mono framework.
     /// </summary>
-    /// <returns>The default value.</returns>
-    /// <param name="type">Type.</param>
-    public static object GetDefaultValue(this Type type)
-    {
-      var typeInfo = type?.GetTypeInfo() ?? throw new ArgumentNullException(nameof(type));
-      return typeInfo.IsValueType ? Activator.CreateInstance(type) : null;
-    }
+    /// <returns><c>true</c>, if the current execution environment is using the Mono framework, <c>false</c> otherwise.</returns>
+    bool IsExecutingWithMono();
   }
 }
-

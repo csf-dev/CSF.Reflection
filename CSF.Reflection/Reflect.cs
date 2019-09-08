@@ -36,14 +36,6 @@ namespace CSF.Reflection
   /// </summary>
   public static class Reflect
   {
-    #region constants
-
-    private const string MONO_TYPE = "Mono.Runtime";
-
-    #endregion
-
-    #region static member reflection
-    
     /// <summary>
     /// Gets a <see cref="MemberInfo"/> from an expression that indicates a member of a specified type.
     /// </summary>
@@ -136,7 +128,7 @@ namespace CSF.Reflection
     /// </exception>
     public static PropertyInfo Property<TObject>(Expression<Func<TObject, object>> expression)
     {
-      return Member<TObject>(expression) as PropertyInfo;
+      return Member(expression) as PropertyInfo;
     }
     
     /// <summary>
@@ -162,7 +154,7 @@ namespace CSF.Reflection
     /// </exception>
     public static PropertyInfo Property<TObject,TReturn>(Expression<Func<TObject,TReturn>> expression)
     {
-      return Member<TObject,TReturn>(expression) as PropertyInfo;
+      return Member(expression) as PropertyInfo;
     }
 
     /// <summary>
@@ -185,7 +177,7 @@ namespace CSF.Reflection
     /// </exception>
     public static FieldInfo Field<TObject>(Expression<Func<TObject, object>> expression)
     {
-      return Member<TObject>(expression) as FieldInfo;
+      return Member(expression) as FieldInfo;
     }
 
     /// <summary>
@@ -211,7 +203,7 @@ namespace CSF.Reflection
     /// </exception>
     public static FieldInfo Field<TObject,TReturn>(Expression<Func<TObject,TReturn>> expression)
     {
-      return Member<TObject,TReturn>(expression) as FieldInfo;
+      return Member(expression) as FieldInfo;
     }
     
     /// <summary>
@@ -234,7 +226,7 @@ namespace CSF.Reflection
     /// </exception>
     public static MethodInfo Method<TObject>(Expression<Func<TObject, object>> expression)
     {
-      return Member<TObject>(expression) as MethodInfo;
+      return Member(expression) as MethodInfo;
     }
     
     /// <summary>
@@ -260,7 +252,7 @@ namespace CSF.Reflection
     /// </exception>
     public static MethodInfo Method<TObject,TReturn>(Expression<Func<TObject,TReturn>> expression)
     {
-      return Member<TObject,TReturn>(expression) as MethodInfo;
+      return Member(expression) as MethodInfo;
     }
     
     /// <summary>
@@ -283,28 +275,8 @@ namespace CSF.Reflection
     /// </exception>
     public static MethodInfo Method<TObject>(Expression<Action<TObject>> expression)
     {
-      return Member<TObject>(expression) as MethodInfo;
+      return Member(expression) as MethodInfo;
     }
-
-    #endregion
-
-    #region other reflection-related functionality
-
-    /// <summary>
-    /// Determines whether the application is executing using the Mono framework.  This uses the supported manner of
-    /// detecting mono.
-    /// </summary>
-    /// <returns>
-    /// <c>true</c> if the application is executing on the mono framework; otherwise, <c>false</c>.
-    /// </returns>
-    public static bool IsMono()
-    {
-      return (Type.GetType(MONO_TYPE) != null);
-    }
-
-    #endregion
-    
-    #region private methods
 
     /// <summary>
     /// Gets a <see cref="System.Reflection.MemberInfo"/> from the given linq expression.
@@ -352,8 +324,6 @@ namespace CSF.Reflection
       throw new ArgumentException($@"The expression must indicate a member.
 Expression:{expression}", nameof(expression));
     }
-    
-    #endregion
   }
 }
 

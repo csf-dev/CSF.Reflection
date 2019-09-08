@@ -36,8 +36,6 @@ namespace CSF.Reflection
   /// </summary>
   public static class AssemblyExtensions
   {
-    #region embedded resources
-
     /// <summary>
     /// Extension method reads a text-based resource stored within an assembly.
     /// </summary>
@@ -52,23 +50,20 @@ namespace CSF.Reflection
     /// </param>
     public static string GetManifestResourceText(this Assembly assembly, string resourceName)
     {
-      string output;
-
       if(assembly == null)
-      {
         throw new ArgumentNullException(nameof(assembly));
-      }
 
-      using(Stream resourceStream = assembly.GetManifestResourceStream(resourceName))
+      using(var resourceStream = assembly.GetManifestResourceStream(resourceName))
       {
         if(resourceStream == null)
           throw new MissingManifestResourceException($@"The requested manifest resource was not found in assembly '{assembly.FullName}'.
 Resource name:{resourceName}");
 
-        output = GetResourceText(resourceStream);
+        using (var reader = new StreamReader(resourceStream))
+        {
+          return reader.ReadToEnd();
+        }
       }
-
-      return output;
     }
 
     /// <summary>
@@ -88,45 +83,12 @@ Resource name:{resourceName}");
     /// </param>
     public static string GetManifestResourceText(this Assembly assembly, Type type, string resourceName)
     {
-      if(assembly == null)
-        throw new ArgumentNullException(nameof(assembly));
       if(type == null)
         throw new ArgumentNullException(nameof(type));
 
       var fullResourceName = $"{type.Namespace}.{resourceName}";
-
-      using(Stream resourceStream = assembly.GetManifestResourceStream(fullResourceName))
-      {
-        if(resourceStream == null)
-          throw new MissingManifestResourceException($@"The requested manifest resource was not found in assembly '{assembly.FullName}'.
-Resource name:{fullResourceName}");
-
-        return GetResourceText(resourceStream);
-      }
+      return GetManifestResourceText(assembly, fullResourceName);
     }
-
-    /// <summary>
-    /// Private helper method gets the textual content of a stream.
-    /// </summary>
-    /// <returns>
-    /// The text content of the stream.
-    /// </returns>
-    /// <param name='resourceStream'>
-    /// A resource stream.
-    /// </param>
-    private static string GetResourceText(Stream resourceStream)
-    {
-      string output;
-
-      using(TextReader reader = new StreamReader(resourceStream))
-      {
-        output = reader.ReadToEnd();
-      }
-
-      return output;
-    }
-
-    #endregion
   }
 }
 
