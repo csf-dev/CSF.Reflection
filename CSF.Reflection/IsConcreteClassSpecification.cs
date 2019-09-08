@@ -33,7 +33,7 @@ namespace CSF.Reflection
   /// <summary>
   /// Specification for a <c>System.Type</c> which matches concrete types (non-abstract classes).
   /// </summary>
-  public class IsConcreteSpecification : SpecificationExpression<Type>
+  public class IsConcreteClassSpecification : SpecificationExpression<Type>
   {
     /// <summary>
     /// Gets the match expression.
