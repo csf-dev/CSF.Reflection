@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{99DFF2AB-28BB-4851-BCF7-6A180DEE62BD}"
 	ProjectSection(SolutionItems) = preProject
 		Tools\EnableNet45BuildOnUnix.targets = Tools\EnableNet45BuildOnUnix.targets
+		.appveyor.yml = .appveyor.yml
+		.travis.yml = .travis.yml
 	EndProjectSection
 EndProject
 Global
