@@ -1,5 +1,5 @@
 ﻿//
-// AssemblyTypeProviderTests.cs
+// DerivesFromOpenGenericInterfaceSpecificationTests.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
@@ -23,26 +23,41 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
-using System.Reflection;
-using CSF.Reflection;
 using NUnit.Framework;
 
-namespace Test.CSF
+namespace CSF.Reflection.Tests
 {
     [TestFixture]
-    public class AssemblyTypeProviderTests
+    public class DerivesFromOpenGenericInterfaceSpecificationTests
     {
         [Test]
-        public void GetTypes_returns_all_types_in_the_current_assembly()
+        public void Matches_returns_true_for_a_derived_class()
         {
+            // Arrange
+            var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
+
             // Act
-            var result = new TestAssemblyTypeProvider().GetTypes();
+            var result = sut.Matches(typeof(Derived));
 
             // Assert
-            Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
+            Assert.That(result, Is.True);
         }
 
-        internal class TestAssemblyTypeProvider : AssemblyExportedTypesProvider { }
+        [Test]
+        public void Matches_returns_false_for_a_non_derived_class()
+        {
+            // Arrange
+            var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
+
+            // Act
+            var result = sut.Matches(typeof(NotDerived));
+
+            // Assert
+            Assert.That(result, Is.False);
+        }
+
+        internal interface IBase<T> { }
+        internal class Derived : IBase<string> { }
+        internal class NotDerived { }
     }
 }

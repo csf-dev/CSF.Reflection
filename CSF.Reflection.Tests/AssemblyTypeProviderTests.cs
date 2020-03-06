@@ -1,10 +1,10 @@
-//
-// TestTypeExtensions.cs
+﻿//
+// AssemblyTypeProviderTests.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2015 CSF Software Limited
+// Copyright (c) 2019 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,62 +23,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
-using System;
-using NUnit.Framework;
-using CSF.Reflection;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Linq;
+using NUnit.Framework;
 
-namespace Test.CSF.Reflection
+namespace CSF.Reflection.Tests
 {
     [TestFixture]
-    public class TestTypeExtensions
+    public class AssemblyTypeProviderTests
     {
-        #region tests
-
         [Test]
-        public void GetDefaultValue_gets_correct_value_for_value_type()
+        public void GetTypes_returns_all_types_in_the_current_assembly()
         {
-            // Arrange
-
-
             // Act
-            var result = typeof(int).GetDefaultValue();
+            var result = new TestAssemblyTypeProvider().GetTypes();
 
             // Assert
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
         }
 
-        [Test]
-        public void GetDefaultValue_gets_correct_value_for_reference_type()
-        {
-            // Arrange
-
-
-            // Act
-            var result = typeof(Foo).GetDefaultValue();
-
-            // Assert
-            Assert.AreEqual(null, result);
-        }
-
-        #endregion
-
-        #region contained classes
-
-        class Foo { }
-
-        class Bar : Foo, IMarker { }
-
-        class Baz : Bar, IMarker<int> { }
-
-        interface IMarker { }
-
-        interface IMarker<T> { }
-
-        #endregion
+        internal class TestAssemblyTypeProvider : AssemblyExportedTypesProvider { }
     }
 }
-

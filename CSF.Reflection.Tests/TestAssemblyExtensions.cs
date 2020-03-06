@@ -24,13 +24,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using System.Reflection;
-using CSF.Reflection;
 using NUnit.Framework;
 using System.Resources;
 
-namespace Test.CSF.Reflection
+namespace CSF.Reflection.Tests
 {
     [TestFixture]
     public class TestAssemblyExtensions

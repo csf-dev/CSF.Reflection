@@ -1,10 +1,10 @@
-﻿//
-// DerivesFromOpenGenericInterfaceSpecificationTests.cs
+//
+// TestTypeExtensions.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2015 CSF Software Limited
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,43 +23,57 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
-using CSF.Reflection;
+
 using NUnit.Framework;
 
-namespace Test.CSF
+namespace CSF.Reflection.Tests
 {
     [TestFixture]
-    public class DerivesFromOpenGenericInterfaceSpecificationTests
+    public class TestTypeExtensions
     {
+        #region tests
+
         [Test]
-        public void Matches_returns_true_for_a_derived_class()
+        public void GetDefaultValue_gets_correct_value_for_value_type()
         {
             // Arrange
-            var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
+
 
             // Act
-            var result = sut.Matches(typeof(Derived));
+            var result = typeof(int).GetDefaultValue();
 
             // Assert
-            Assert.That(result, Is.True);
+            Assert.AreEqual(0, result);
         }
 
         [Test]
-        public void Matches_returns_false_for_a_non_derived_class()
+        public void GetDefaultValue_gets_correct_value_for_reference_type()
         {
             // Arrange
-            var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
+
 
             // Act
-            var result = sut.Matches(typeof(NotDerived));
+            var result = typeof(Foo).GetDefaultValue();
 
             // Assert
-            Assert.That(result, Is.False);
+            Assert.AreEqual(null, result);
         }
 
-        internal interface IBase<T> { }
-        internal class Derived : IBase<string> { }
-        internal class NotDerived { }
+        #endregion
+
+        #region contained classes
+
+        class Foo { }
+
+        class Bar : Foo, IMarker { }
+
+        class Baz : Bar, IMarker<int> { }
+
+        interface IMarker { }
+
+        interface IMarker<T> { }
+
+        #endregion
     }
 }
+
