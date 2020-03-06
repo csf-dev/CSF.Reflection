@@ -23,4 +23,14 @@
   <ItemGroup>
     <ProjectReference Include="..\CSF.Reflection\CSF.Reflection.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="TestResource.txt" />
+    <None Remove="TestResourceType.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TestResource.txt">
+      <LogicalName>TestResource.txt</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestResourceType.txt" />
+  </ItemGroup>
 </Project>

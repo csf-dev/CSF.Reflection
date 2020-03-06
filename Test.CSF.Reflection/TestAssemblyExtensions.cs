@@ -43,19 +43,11 @@ namespace Test.CSF.Reflection
         }
 
         [Test]
-        [ExpectedException(typeof(MissingManifestResourceException))]
         public void TestGetManifestResourceTextInvalid()
         {
-            try
-            {
-                Assembly.GetExecutingAssembly().GetManifestResourceText("Nonexistent.txt");
-            }
-            catch (InvalidOperationException ex)
-            {
-                Assert.IsTrue(ex.Message.StartsWith("Manifest resource 'Nonexistent.txt' was not found in the assembly 'Test.CSF, Version="));
-                throw;
-            }
-            Assert.Fail("Test should not reach this point");
+
+            Assert.That(() => Assembly.GetExecutingAssembly().GetManifestResourceText("Nonexistent.txt"),
+                        Throws.InstanceOf<MissingManifestResourceException>());
         }
 
         [Test]
@@ -67,19 +59,10 @@ namespace Test.CSF.Reflection
         }
 
         [Test]
-        [ExpectedException(typeof(MissingManifestResourceException))]
         public void TestGetManifestResourceTextTypeInvalid()
         {
-            try
-            {
-                Assembly.GetExecutingAssembly().GetManifestResourceText(typeof(TestAssemblyExtensions), "Nonexistent.txt");
-            }
-            catch (InvalidOperationException ex)
-            {
-                Assert.IsTrue(ex.Message.StartsWith("Manifest resource 'Test.CSF.Reflection.Nonexistent.txt' was not found in the assembly 'Test.CSF, Version="));
-                throw;
-            }
-            Assert.Fail("Test should not reach this point");
+            Assert.That(() => Assembly.GetExecutingAssembly().GetManifestResourceText(typeof(TestAssemblyExtensions), "Nonexistent.txt"),
+                        Throws.InstanceOf<MissingManifestResourceException>());
         }
     }
 }
