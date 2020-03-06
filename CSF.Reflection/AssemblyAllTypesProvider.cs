@@ -30,22 +30,22 @@ using System.Reflection;
 
 namespace CSF.Reflection
 {
-  /// <summary>
-  /// Implementation of <see cref="IGetsTypes"/> which gets all of the types defined in an assembly.
-  /// This includes those which would not normally be 'visible' outside of the assembly.
-  /// This class is intended to be subclassed in your own projects, providing access to the types in that
-  /// same assembly as your subclass.
-  /// </summary>
-  public abstract class AssemblyAllTypesProvider : IGetsTypes
-  {
     /// <summary>
-    /// Get a collection of types representing those which are in the same assembly as the current instance.
+    /// Implementation of <see cref="IGetsTypes"/> which gets all of the types defined in an assembly.
+    /// This includes those which would not normally be 'visible' outside of the assembly.
+    /// This class is intended to be subclassed in your own projects, providing access to the types in that
+    /// same assembly as your subclass.
     /// </summary>
-    /// <returns>The types.</returns>
-    public virtual IReadOnlyCollection<Type> GetTypes()
+    public abstract class AssemblyAllTypesProvider : IGetsTypes
     {
-      var assembly = GetType().GetTypeInfo().Assembly;
-      return assembly.DefinedTypes.Select(x => x.AsType()).ToArray();
+        /// <summary>
+        /// Get a collection of types representing those which are in the same assembly as the current instance.
+        /// </summary>
+        /// <returns>The types.</returns>
+        public virtual IReadOnlyCollection<Type> GetTypes()
+        {
+            var assembly = GetType().GetTypeInfo().Assembly;
+            return assembly.DefinedTypes.Select(x => x.AsType()).ToArray();
+        }
     }
-  }
 }

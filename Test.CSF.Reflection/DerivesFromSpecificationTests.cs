@@ -29,37 +29,37 @@ using NUnit.Framework;
 
 namespace Test.CSF
 {
-  [TestFixture]
-  public class DerivesFromSpecificationTests
-  {
-    [Test]
-    public void Matches_returns_true_for_a_derived_class()
+    [TestFixture]
+    public class DerivesFromSpecificationTests
     {
-      // Arrange
-      var sut = new DerivesFromSpecification(typeof(Base));
+        [Test]
+        public void Matches_returns_true_for_a_derived_class()
+        {
+            // Arrange
+            var sut = new DerivesFromSpecification(typeof(Base));
 
-      // Act
-      var result = sut.Matches(typeof(Derived));
+            // Act
+            var result = sut.Matches(typeof(Derived));
 
-      // Assert
-      Assert.That(result, Is.True);
+            // Assert
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        public void Matches_returns_false_for_a_non_derived_class()
+        {
+            // Arrange
+            var sut = new DerivesFromSpecification(typeof(Base));
+
+            // Act
+            var result = sut.Matches(typeof(NotDerived));
+
+            // Assert
+            Assert.That(result, Is.False);
+        }
+
+        internal class Base { }
+        internal class Derived : Base { }
+        internal class NotDerived { }
     }
-
-    [Test]
-    public void Matches_returns_false_for_a_non_derived_class()
-    {
-      // Arrange
-      var sut = new DerivesFromSpecification(typeof(Base));
-
-      // Act
-      var result = sut.Matches(typeof(NotDerived));
-
-      // Assert
-      Assert.That(result, Is.False);
-    }
-
-    internal class Base {}
-    internal class Derived : Base {}
-    internal class NotDerived {}
-  }
 }

@@ -30,18 +30,18 @@ using CSF.Specifications;
 
 namespace CSF.Reflection
 {
-  /// <summary>
-  /// Specification for a <c>System.Type</c> which matches interfaces.
-  /// </summary>
-  public class IsInterfaceSpecification : SpecificationExpression<Type>
-  {
     /// <summary>
-    /// Gets the match expression.
+    /// Specification for a <c>System.Type</c> which matches interfaces.
     /// </summary>
-    /// <returns>The expression.</returns>
-    public override Expression<Func<Type, bool>> GetExpression()
+    public class IsInterfaceSpecification : SpecificationExpression<Type>
     {
-      return x => x.GetTypeInfo().IsInterface;
+        /// <summary>
+        /// Gets the match expression.
+        /// </summary>
+        /// <returns>The expression.</returns>
+        public override Expression<Func<Type, bool>> GetExpression()
+        {
+            return x => x.GetTypeInfo().IsInterface;
+        }
     }
-  }
 }

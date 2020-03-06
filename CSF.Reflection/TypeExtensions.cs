@@ -29,21 +29,21 @@ using System.Reflection;
 
 namespace CSF.Reflection
 {
-  /// <summary>
-  /// Helper type containing extension methods for <see cref="System.Type"/>.
-  /// </summary>
-  public static class TypeExtensions
-  {
     /// <summary>
-    /// Gets the default value for the given type.
+    /// Helper type containing extension methods for <see cref="System.Type"/>.
     /// </summary>
-    /// <returns>The default value.</returns>
-    /// <param name="type">Type.</param>
-    public static object GetDefaultValue(this Type type)
+    public static class TypeExtensions
     {
-      var typeInfo = type?.GetTypeInfo() ?? throw new ArgumentNullException(nameof(type));
-      return typeInfo.IsValueType ? Activator.CreateInstance(type) : null;
+        /// <summary>
+        /// Gets the default value for the given type.
+        /// </summary>
+        /// <returns>The default value.</returns>
+        /// <param name="type">Type.</param>
+        public static object GetDefaultValue(this Type type)
+        {
+            var typeInfo = type?.GetTypeInfo() ?? throw new ArgumentNullException(nameof(type));
+            return typeInfo.IsValueType ? Activator.CreateInstance(type) : null;
+        }
     }
-  }
 }
 

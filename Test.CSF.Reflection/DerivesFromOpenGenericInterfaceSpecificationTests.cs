@@ -29,37 +29,37 @@ using NUnit.Framework;
 
 namespace Test.CSF
 {
-  [TestFixture]
-  public class DerivesFromOpenGenericInterfaceSpecificationTests
-  {
-    [Test]
-    public void Matches_returns_true_for_a_derived_class()
+    [TestFixture]
+    public class DerivesFromOpenGenericInterfaceSpecificationTests
     {
-      // Arrange
-      var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
+        [Test]
+        public void Matches_returns_true_for_a_derived_class()
+        {
+            // Arrange
+            var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
 
-      // Act
-      var result = sut.Matches(typeof(Derived));
+            // Act
+            var result = sut.Matches(typeof(Derived));
 
-      // Assert
-      Assert.That(result, Is.True);
+            // Assert
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        public void Matches_returns_false_for_a_non_derived_class()
+        {
+            // Arrange
+            var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
+
+            // Act
+            var result = sut.Matches(typeof(NotDerived));
+
+            // Assert
+            Assert.That(result, Is.False);
+        }
+
+        internal interface IBase<T> { }
+        internal class Derived : IBase<string> { }
+        internal class NotDerived { }
     }
-
-    [Test]
-    public void Matches_returns_false_for_a_non_derived_class()
-    {
-      // Arrange
-      var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
-
-      // Act
-      var result = sut.Matches(typeof(NotDerived));
-
-      // Assert
-      Assert.That(result, Is.False);
-    }
-
-    internal interface IBase<T> {}
-    internal class Derived : IBase<string> {}
-    internal class NotDerived {}
-  }
 }

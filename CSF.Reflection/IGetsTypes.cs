@@ -28,15 +28,15 @@ using System.Collections.Generic;
 
 namespace CSF.Reflection
 {
-  /// <summary>
-  /// A service which gets a collection of related types.
-  /// </summary>
-  public interface IGetsTypes
-  {
     /// <summary>
-    /// Get a collection of types.
+    /// A service which gets a collection of related types.
     /// </summary>
-    /// <returns>The types.</returns>
-    IReadOnlyCollection<Type> GetTypes();
-  }
+    public interface IGetsTypes
+    {
+        /// <summary>
+        /// Get a collection of types.
+        /// </summary>
+        /// <returns>The types.</returns>
+        IReadOnlyCollection<Type> GetTypes();
+    }
 }

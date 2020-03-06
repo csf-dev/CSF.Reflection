@@ -30,19 +30,19 @@ using NUnit.Framework;
 
 namespace Test.CSF
 {
-  [TestFixture]
-  public class AssemblyTypeProviderTests
-  {
-    [Test]
-    public void GetTypes_returns_all_types_in_the_current_assembly()
+    [TestFixture]
+    public class AssemblyTypeProviderTests
     {
-      // Act
-      var result = new TestAssemblyTypeProvider().GetTypes();
+        [Test]
+        public void GetTypes_returns_all_types_in_the_current_assembly()
+        {
+            // Act
+            var result = new TestAssemblyTypeProvider().GetTypes();
 
-      // Assert
-      Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
+            // Assert
+            Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
+        }
+
+        internal class TestAssemblyTypeProvider : AssemblyExportedTypesProvider { }
     }
-
-    internal class TestAssemblyTypeProvider : AssemblyExportedTypesProvider {}
-  }
 }

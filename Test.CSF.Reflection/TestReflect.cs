@@ -31,138 +31,138 @@ using System.Reflection;
 
 namespace Test.CSF.Reflection
 {
-  [TestFixture]
-  public class TestReflect
-  {
-    #region static reflection tests
-
-    [Test]
-    public void TestReferenceTypeField()
+    [TestFixture]
+    public class TestReflect
     {
-      FieldInfo member;
-      member = Reflect.Field<StubType>(x => x.ReferenceTypeField);
+        #region static reflection tests
 
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ReferenceTypeField", member.Name, "Member name");
+        [Test]
+        public void TestReferenceTypeField()
+        {
+            FieldInfo member;
+            member = Reflect.Field<StubType>(x => x.ReferenceTypeField);
+
+            Assert.IsNotNull(member, "Member nullability");
+            Assert.AreEqual("ReferenceTypeField", member.Name, "Member name");
+        }
+
+        [Test]
+        public void TestValueTypeField()
+        {
+            FieldInfo member;
+            member = Reflect.Field<StubType>(x => x.ValueTypeField);
+
+            Assert.IsNotNull(member, "Member nullability");
+            Assert.AreEqual("ValueTypeField", member.Name, "Member name");
+        }
+
+        [Test]
+        public void TestReferenceTypeProperty()
+        {
+            PropertyInfo member;
+            member = Reflect.Property<StubType>(x => x.ReferenceTypeProperty);
+
+            Assert.IsNotNull(member, "Member nullability");
+            Assert.AreEqual("ReferenceTypeProperty", member.Name, "Member name");
+        }
+
+        [Test]
+        public void TestValueTypeProperty()
+        {
+            PropertyInfo member;
+            member = Reflect.Property<StubType>(x => x.ValueTypeProperty);
+
+            Assert.IsNotNull(member, "Member nullability");
+            Assert.AreEqual("ValueTypeProperty", member.Name, "Member name");
+        }
+
+        [Test]
+        public void TestReferenceTypeMethod()
+        {
+            MethodInfo member;
+            member = Reflect.Method<StubType>(x => x.ReferenceTypeMethod());
+
+            Assert.IsNotNull(member, "Member nullability");
+            Assert.AreEqual("ReferenceTypeMethod", member.Name, "Member name");
+        }
+
+        [Test]
+        public void TestValueTypeMethod()
+        {
+            MethodInfo member;
+            member = Reflect.Method<StubType>(x => x.ValueTypeMethod());
+
+            Assert.IsNotNull(member, "Member nullability");
+            Assert.AreEqual("ValueTypeMethod", member.Name, "Member name");
+        }
+
+        [Test]
+        public void TestActionMethod()
+        {
+            MethodInfo member;
+            member = Reflect.Method<StubType>(x => x.Action());
+
+            Assert.IsNotNull(member, "Member nullability");
+            Assert.AreEqual("Action", member.Name, "Member name");
+        }
+
+        [Test]
+        public void TestMember()
+        {
+            MemberInfo member;
+            member = Reflect.Member<StubType>(x => x.Action());
+
+            Assert.IsNotNull(member, "Member nullability");
+            Assert.AreEqual("Action", member.Name, "Member name");
+        }
+
+        #endregion
+
+        #region stubs
+
+        public class StubType
+        {
+            public string ReferenceTypeField;
+
+            public int ValueTypeField;
+
+            public string ReferenceTypeProperty
+            {
+                get;
+                set;
+            }
+
+            public int ValueTypeProperty
+            {
+                get;
+                set;
+            }
+
+            public string ReferenceTypeMethod()
+            {
+                return this.ReferenceTypeProperty;
+            }
+
+            public int ValueTypeMethod()
+            {
+                return this.ValueTypeProperty;
+            }
+
+            public void Action()
+            {
+                // Intentional no-op
+            }
+
+            public StubType()
+            {
+                this.ReferenceTypeProperty = "Foo bar baz";
+
+                // Chosen by fair dice roll, guaranteed to be random!
+                this.ValueTypeProperty = 4;
+            }
+        }
+
+        #endregion
     }
-
-    [Test]
-    public void TestValueTypeField()
-    {
-      FieldInfo member;
-      member = Reflect.Field<StubType>(x => x.ValueTypeField);
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ValueTypeField", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestReferenceTypeProperty()
-    {
-      PropertyInfo member;
-      member = Reflect.Property<StubType>(x => x.ReferenceTypeProperty);
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ReferenceTypeProperty", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestValueTypeProperty()
-    {
-      PropertyInfo member;
-      member = Reflect.Property<StubType>(x => x.ValueTypeProperty);
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ValueTypeProperty", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestReferenceTypeMethod()
-    {
-      MethodInfo member;
-      member = Reflect.Method<StubType>(x => x.ReferenceTypeMethod());
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ReferenceTypeMethod", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestValueTypeMethod()
-    {
-      MethodInfo member;
-      member = Reflect.Method<StubType>(x => x.ValueTypeMethod());
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("ValueTypeMethod", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestActionMethod()
-    {
-      MethodInfo member;
-      member = Reflect.Method<StubType>(x => x.Action());
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("Action", member.Name, "Member name");
-    }
-
-    [Test]
-    public void TestMember()
-    {
-      MemberInfo member;
-      member = Reflect.Member<StubType>(x => x.Action());
-
-      Assert.IsNotNull(member, "Member nullability");
-      Assert.AreEqual("Action", member.Name, "Member name");
-    }
-
-    #endregion
-
-    #region stubs
-
-    public class StubType
-    {
-      public string ReferenceTypeField;
-
-      public int ValueTypeField;
-
-      public string ReferenceTypeProperty
-      {
-        get;
-        set;
-      }
-
-      public int ValueTypeProperty
-      {
-        get;
-        set;
-      }
-
-      public string ReferenceTypeMethod()
-      {
-        return this.ReferenceTypeProperty;
-      }
-
-      public int ValueTypeMethod()
-      {
-        return this.ValueTypeProperty;
-      }
-
-      public void Action()
-      {
-        // Intentional no-op
-      }
-
-      public StubType()
-      {
-        this.ReferenceTypeProperty = "Foo bar baz";
-
-        // Chosen by fair dice roll, guaranteed to be random!
-        this.ValueTypeProperty = 4;
-      }
-    }
-
-    #endregion
-  }
 }
 

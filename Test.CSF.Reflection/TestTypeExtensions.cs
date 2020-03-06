@@ -33,52 +33,52 @@ using System.Linq;
 
 namespace Test.CSF.Reflection
 {
-  [TestFixture]
-  public class TestTypeExtensions
-  {
-    #region tests
-
-    [Test]
-    public void GetDefaultValue_gets_correct_value_for_value_type()
+    [TestFixture]
+    public class TestTypeExtensions
     {
-      // Arrange
-      
+        #region tests
 
-      // Act
-      var result = typeof(int).GetDefaultValue();
+        [Test]
+        public void GetDefaultValue_gets_correct_value_for_value_type()
+        {
+            // Arrange
 
-      // Assert
-      Assert.AreEqual(0, result);
+
+            // Act
+            var result = typeof(int).GetDefaultValue();
+
+            // Assert
+            Assert.AreEqual(0, result);
+        }
+
+        [Test]
+        public void GetDefaultValue_gets_correct_value_for_reference_type()
+        {
+            // Arrange
+
+
+            // Act
+            var result = typeof(Foo).GetDefaultValue();
+
+            // Assert
+            Assert.AreEqual(null, result);
+        }
+
+        #endregion
+
+        #region contained classes
+
+        class Foo { }
+
+        class Bar : Foo, IMarker { }
+
+        class Baz : Bar, IMarker<int> { }
+
+        interface IMarker { }
+
+        interface IMarker<T> { }
+
+        #endregion
     }
-
-    [Test]
-    public void GetDefaultValue_gets_correct_value_for_reference_type()
-    {
-      // Arrange
-
-
-      // Act
-      var result = typeof(Foo).GetDefaultValue();
-
-      // Assert
-      Assert.AreEqual(null, result);
-    }
-
-    #endregion
-    
-    #region contained classes
-    
-    class Foo {}
-    
-    class Bar : Foo, IMarker {}
-    
-    class Baz : Bar, IMarker<int> {}
-
-    interface IMarker {}
-
-    interface IMarker<T> {}
-    
-    #endregion
-  }
 }
 

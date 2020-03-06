@@ -32,55 +32,55 @@ using System.Resources;
 
 namespace Test.CSF.Reflection
 {
-  [TestFixture]
-  public class TestAssemblyExtensions
-  {
-    [Test]
-    public void TestGetManifestResourceText()
+    [TestFixture]
+    public class TestAssemblyExtensions
     {
-      string resourceText = Assembly.GetExecutingAssembly().GetManifestResourceText("TestResource.txt");
-      Assert.AreEqual("This is a test resource file", resourceText, "Correct resource text");
-    }
+        [Test]
+        public void TestGetManifestResourceText()
+        {
+            string resourceText = Assembly.GetExecutingAssembly().GetManifestResourceText("TestResource.txt");
+            Assert.AreEqual("This is a test resource file", resourceText, "Correct resource text");
+        }
 
-    [Test]
-    [ExpectedException(typeof(MissingManifestResourceException))]
-    public void TestGetManifestResourceTextInvalid()
-    {
-      try
-      {
-      Assembly.GetExecutingAssembly().GetManifestResourceText("Nonexistent.txt");
-      }
-      catch(InvalidOperationException ex)
-      {
-        Assert.IsTrue(ex.Message.StartsWith("Manifest resource 'Nonexistent.txt' was not found in the assembly 'Test.CSF, Version="));
-        throw;
-      }
-      Assert.Fail("Test should not reach this point");
-    }
+        [Test]
+        [ExpectedException(typeof(MissingManifestResourceException))]
+        public void TestGetManifestResourceTextInvalid()
+        {
+            try
+            {
+                Assembly.GetExecutingAssembly().GetManifestResourceText("Nonexistent.txt");
+            }
+            catch (InvalidOperationException ex)
+            {
+                Assert.IsTrue(ex.Message.StartsWith("Manifest resource 'Nonexistent.txt' was not found in the assembly 'Test.CSF, Version="));
+                throw;
+            }
+            Assert.Fail("Test should not reach this point");
+        }
 
-    [Test]
-    public void TestGetManifestResourceTextType()
-    {
-      string resourceText = Assembly.GetExecutingAssembly().GetManifestResourceText(typeof(TestAssemblyExtensions),
-                                                                                    "TestResourceType.txt");
-      Assert.AreEqual("This is a test resource file, stored by namespace", resourceText, "Correct resource text");
-    }
+        [Test]
+        public void TestGetManifestResourceTextType()
+        {
+            string resourceText = Assembly.GetExecutingAssembly().GetManifestResourceText(typeof(TestAssemblyExtensions),
+                                                                                          "TestResourceType.txt");
+            Assert.AreEqual("This is a test resource file, stored by namespace", resourceText, "Correct resource text");
+        }
 
-    [Test]
-    [ExpectedException(typeof(MissingManifestResourceException))]
-    public void TestGetManifestResourceTextTypeInvalid()
-    {
-      try
-      {
-      Assembly.GetExecutingAssembly().GetManifestResourceText(typeof(TestAssemblyExtensions), "Nonexistent.txt");
-      }
-      catch(InvalidOperationException ex)
-      {
-        Assert.IsTrue(ex.Message.StartsWith("Manifest resource 'Test.CSF.Reflection.Nonexistent.txt' was not found in the assembly 'Test.CSF, Version="));
-        throw;
-      }
-      Assert.Fail("Test should not reach this point");
+        [Test]
+        [ExpectedException(typeof(MissingManifestResourceException))]
+        public void TestGetManifestResourceTextTypeInvalid()
+        {
+            try
+            {
+                Assembly.GetExecutingAssembly().GetManifestResourceText(typeof(TestAssemblyExtensions), "Nonexistent.txt");
+            }
+            catch (InvalidOperationException ex)
+            {
+                Assert.IsTrue(ex.Message.StartsWith("Manifest resource 'Test.CSF.Reflection.Nonexistent.txt' was not found in the assembly 'Test.CSF, Version="));
+                throw;
+            }
+            Assert.Fail("Test should not reach this point");
+        }
     }
-  }
 }
 
