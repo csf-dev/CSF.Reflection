@@ -31,64 +31,64 @@ using System.Resources;
 
 namespace CSF.Reflection
 {
-  /// <summary>
-  /// Extension methods for the Assembly type.
-  /// </summary>
-  public static class AssemblyExtensions
-  {
     /// <summary>
-    /// Extension method reads a text-based resource stored within an assembly.
+    /// Extension methods for the Assembly type.
     /// </summary>
-    /// <returns>
-    /// The manifest resource text.
-    /// </returns>
-    /// <param name='assembly'>
-    /// The assembly
-    /// </param>
-    /// <param name='resourceName'>
-    /// Resource name.
-    /// </param>
-    public static string GetManifestResourceText(this Assembly assembly, string resourceName)
+    public static class AssemblyExtensions
     {
-      if(assembly == null)
-        throw new ArgumentNullException(nameof(assembly));
+        /// <summary>
+        /// Extension method reads a text-based resource stored within an assembly.
+        /// </summary>
+        /// <returns>
+        /// The manifest resource text.
+        /// </returns>
+        /// <param name='assembly'>
+        /// The assembly
+        /// </param>
+        /// <param name='resourceName'>
+        /// Resource name.
+        /// </param>
+        public static string GetManifestResourceText(this Assembly assembly, string resourceName)
+        {
+            if (assembly == null)
+                throw new ArgumentNullException(nameof(assembly));
 
-      using(var resourceStream = assembly.GetManifestResourceStream(resourceName))
-      {
-        if(resourceStream == null)
-          throw new MissingManifestResourceException($@"The requested manifest resource was not found in assembly '{assembly.FullName}'.
+            using (var resourceStream = assembly.GetManifestResourceStream(resourceName))
+            {
+                if (resourceStream == null)
+                    throw new MissingManifestResourceException($@"The requested manifest resource was not found in assembly '{assembly.FullName}'.
 Resource name:{resourceName}");
 
-        using (var reader = new StreamReader(resourceStream))
-        {
-          return reader.ReadToEnd();
+                using (var reader = new StreamReader(resourceStream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
         }
-      }
-    }
 
-    /// <summary>
-    /// Extension method reads a text-based resource stored within an assembly.
-    /// </summary>
-    /// <returns>
-    /// The manifest resource text.
-    /// </returns>
-    /// <param name='assembly'>
-    /// The assembly.
-    /// </param>
-    /// <param name='type'>
-    /// A type by which to namespace the resource.
-    /// </param>
-    /// <param name='resourceName'>
-    /// Resource name.
-    /// </param>
-    public static string GetManifestResourceText(this Assembly assembly, Type type, string resourceName)
-    {
-      if(type == null)
-        throw new ArgumentNullException(nameof(type));
+        /// <summary>
+        /// Extension method reads a text-based resource stored within an assembly.
+        /// </summary>
+        /// <returns>
+        /// The manifest resource text.
+        /// </returns>
+        /// <param name='assembly'>
+        /// The assembly.
+        /// </param>
+        /// <param name='type'>
+        /// A type by which to namespace the resource.
+        /// </param>
+        /// <param name='resourceName'>
+        /// Resource name.
+        /// </param>
+        public static string GetManifestResourceText(this Assembly assembly, Type type, string resourceName)
+        {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
 
-      var fullResourceName = $"{type.Namespace}.{resourceName}";
-      return GetManifestResourceText(assembly, fullResourceName);
+            var fullResourceName = $"{type.Namespace}.{resourceName}";
+            return GetManifestResourceText(assembly, fullResourceName);
+        }
     }
-  }
 }
 

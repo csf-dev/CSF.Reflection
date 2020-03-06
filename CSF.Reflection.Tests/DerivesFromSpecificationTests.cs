@@ -1,5 +1,5 @@
 ﻿//
-// AssemblyTypeProviderTests.cs
+// DerivesFromSpecificationTests.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
@@ -23,26 +23,41 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
-using System.Reflection;
-using CSF.Reflection;
 using NUnit.Framework;
 
-namespace Test.CSF
+namespace CSF.Reflection.Tests
 {
-  [TestFixture]
-  public class AssemblyTypeProviderTests
-  {
-    [Test]
-    public void GetTypes_returns_all_types_in_the_current_assembly()
+    [TestFixture]
+    public class DerivesFromSpecificationTests
     {
-      // Act
-      var result = new TestAssemblyTypeProvider().GetTypes();
+        [Test]
+        public void Matches_returns_true_for_a_derived_class()
+        {
+            // Arrange
+            var sut = new DerivesFromSpecification(typeof(Base));
 
-      // Assert
-      Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
+            // Act
+            var result = sut.Matches(typeof(Derived));
+
+            // Assert
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        public void Matches_returns_false_for_a_non_derived_class()
+        {
+            // Arrange
+            var sut = new DerivesFromSpecification(typeof(Base));
+
+            // Act
+            var result = sut.Matches(typeof(NotDerived));
+
+            // Assert
+            Assert.That(result, Is.False);
+        }
+
+        internal class Base { }
+        internal class Derived : Base { }
+        internal class NotDerived { }
     }
-
-    internal class TestAssemblyTypeProvider : AssemblyExportedTypesProvider {}
-  }
 }

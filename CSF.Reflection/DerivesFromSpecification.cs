@@ -30,31 +30,31 @@ using CSF.Specifications;
 
 namespace CSF.Reflection
 {
-  /// <summary>
-  /// Specification for a <c>System.Type</c> which matches types which derive from a given type.
-  /// </summary>
-  public class DerivesFromSpecification : SpecificationExpression<Type>
-  {
-    readonly Type baseType;
-
     /// <summary>
-    /// Gets the match expression.
+    /// Specification for a <c>System.Type</c> which matches types which derive from a given type.
     /// </summary>
-    /// <returns>The expression.</returns>
-    public override Expression<Func<Type, bool>> GetExpression()
+    public class DerivesFromSpecification : SpecificationExpression<Type>
     {
-      return x => baseType.GetTypeInfo().IsAssignableFrom(x.GetTypeInfo());
-    }
+        readonly Type baseType;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="T:CSF.Reflection.DerivesFromSpecification"/> class.
-    /// </summary>
-    /// <param name="baseType">Base type.</param>
-    public DerivesFromSpecification(Type baseType)
-    {
-      if(baseType == null)
-        throw new ArgumentNullException(nameof(baseType));
-      this.baseType = baseType;
+        /// <summary>
+        /// Gets the match expression.
+        /// </summary>
+        /// <returns>The expression.</returns>
+        public override Expression<Func<Type, bool>> GetExpression()
+        {
+            return x => baseType.GetTypeInfo().IsAssignableFrom(x.GetTypeInfo());
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:CSF.Reflection.DerivesFromSpecification"/> class.
+        /// </summary>
+        /// <param name="baseType">Base type.</param>
+        public DerivesFromSpecification(Type baseType)
+        {
+            if (baseType == null)
+                throw new ArgumentNullException(nameof(baseType));
+            this.baseType = baseType;
+        }
     }
-  }
 }

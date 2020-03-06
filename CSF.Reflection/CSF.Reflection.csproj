@@ -1,33 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.0</TargetFramework>
-    <PackageVersion>2.0.0</PackageVersion>
-    <Authors>CSF Software Ltd</Authors>
-    <ReleaseVersion>2.0.0</ReleaseVersion>
+    <TargetFrameworks>netstandard2.0;net45;netstandard1.0</TargetFrameworks>
+        
     <PackageId>CSF.Reflection</PackageId>
-    <Title>CSF.Reflection</Title>
+    <Authors>craigfowler</Authors>
     <Description>Utilities to make reflection (particularly static reflection) simpler.</Description>
+    <ReleaseVersion>2.0.0</ReleaseVersion>
+    <Version>$(ReleaseVersion)</Version>
+    <PackageVersion>$(ReleaseVersion)</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/csf-dev/CSF.Reflection</RepositoryUrl>
+    <Copyright>Copyright 2020 - CSF Software Limited</Copyright>
+    <PackageProjectUrl>https://github.com/csf-dev/CSF.Reflection</PackageProjectUrl>
+    <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\CSF-Software-OSS.snk</AssemblyOriginatorKeyFile>
-    <PackOnBuild>true</PackOnBuild>
+    <RootNamespace>CSF.Reflection</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DocumentationFile>bin\Debug\netstandard1.0\CSF.Reflection.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CSF.Reflection.xml</DocumentationFile>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType></DebugType>
-    <DocumentationFile>bin\Release\netstandard1.0\CSF.Reflection.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CSF.Reflection.xml</DocumentationFile>
   </PropertyGroup>
+  
   <ItemGroup>
-    <PackageReference Include="CSF.Specifications" Version="1.1.0" />
-    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
+    <Reference Include="System.Runtime" Condition="$(TargetFramework.StartsWith('net4'))" />
+    <Reference Include="System.Linq.Expressions" Condition="$(TargetFramework.StartsWith('net4'))" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Remove="CSF.Reflection.nuspec" />
+    <PackageReference Include="CSF.Specifications" Version="[1.1.0,2.0.0)" />
   </ItemGroup>
+    
+  <Import Project="..\Tools\EnableNet45BuildOnUnix.targets" />
 </Project>
