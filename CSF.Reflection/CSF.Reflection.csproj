@@ -2,17 +2,20 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45;netstandard1.0</TargetFrameworks>
-    <PackageVersion>2.0.0</PackageVersion>
-    <Authors>CSF Software Ltd</Authors>
-    <ReleaseVersion>2.0.0</ReleaseVersion>
+        
     <PackageId>CSF.Reflection</PackageId>
-    <Title>CSF.Reflection</Title>
+    <Authors>craigfowler</Authors>
     <Description>Utilities to make reflection (particularly static reflection) simpler.</Description>
+    <ReleaseVersion>2.0.0</ReleaseVersion>
+    <Version>$(ReleaseVersion)</Version>
+    <PackageVersion>$(ReleaseVersion)</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/csf-dev/CSF.Reflection</RepositoryUrl>
+    <Copyright>Copyright 2020 - CSF Software Limited</Copyright>
+    <PackageProjectUrl>https://github.com/csf-dev/CSF.Reflection</PackageProjectUrl>
+    <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\CSF-Software-OSS.snk</AssemblyOriginatorKeyFile>
-    <PackOnBuild>false</PackOnBuild>
+    <RootNamespace>CSF.Reflection</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CSF.Specifications" Version="1.1.0" />
+    <PackageReference Include="CSF.Specifications" Version="[1.1.0,2.0.0)" />
   </ItemGroup>
     
   <Import Project="..\Tools\EnableNet45BuildOnUnix.targets" />
