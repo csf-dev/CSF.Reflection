@@ -1,61 +1,24 @@
-# CSF.Reflection
-This is a very small library designed to assist in using **reflection** in .NET projects.
+This repository provides **three NuGet packages**, related to using reflection in .NET Framework or Dotnet Core applications. Those packages are:
 
-## Static reflection
-Static reflection uses Linq Expressions to get references to members, without
-needing to resort to string names.  This keeps your code safe across
-refactoring/renaming.  Here's an example:
+* **[CSF.Reflector]**
 
-```csharp
-using System.Reflection;
-using CSF.Reflection;
+    A utility service which performs [static reflection] for properties, fields & methods.
+* **[CSF.ReflectionSpecifications]**
 
-PropertyInfo prop = Reflect.Property<MyClass>(x => x.MyProperty);
-```
+    Some [specification classes] for filtering types, particularly useful when assembly-scanning.
+* **[CSF.Reflection]**
 
-## Getting types from an assembly
-The abstract type `CSF.Reflection.AssemblyTypeProvider` is intended to be **subclassed** in
-your own projects.  It will return a collection of all of the [exported types] which are in
-the same assembly as your subclass is declared.  This collection of types may then be *filtered*
-using specifications (below).
+    An assortment of other very small utility types and functions related to reflection. Each too small to be worth a package of its own.
 
-[exported types]: https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly.getexportedtypes?view=netframework-4.7.2
+## Documentation
+Documentation for these packages may be found on [the wiki for this repository].
 
-## Specifications for types
-A few specification classes are provided for filtering types (such as those returned by an `AssemblyTypeProvider`).
-These are built using [CSF.Specfications] and may be applied to a Linq `.Where()` method.
-Here is an example of these two concepts together, to search an assembly for all concrete
-implementations of an interface:
+## A note about version 3.x
+In version 2.x and lower of this code, all of the functionality above was part of a single NuGet package named `CSF.Reflection`. Version 3+ has split the functionality up to avoid package and dependency bloat.
 
-```csharp
-new MyAssemblyTypeProvider()
-    .GetTypes()
-    .Where(new IsConcreteSpecification())
-    .Where(new DerivesFromSpecification(typeof(IMyInterface)))
-```
-
-This logic may then be put into a class of its own, deriving from `CSF.Reflection.IGetsTypes`.  This new
-class will then encapsulate the logic required to get all of those concrete implementation types.
-
-[CSF.Specfications]: https://github.com/csf-dev/CSF.Specifications
-
-## Getting the text of a resource file
-Provided for convenience, an extension method to `System.Reflection.Assembly`: `GetManifestResourceText`.
-This is a shortcut for reading the text/string content of an embedded manifest resource.
-
-## Open source license
-All source files within this project are released as open source software,
-under the terms of [the MIT license].
-
-[the MIT license]: http://opensource.org/licenses/MIT
-
-This software is distributed in the hope that it will be useful, but please
-remember that:
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+[CSF.Reflector]: https://www.nuget.org/packages/CSF.Reflector/
+[CSF.Reflection]: https://www.nuget.org/packages/CSF.Reflection/
+[CSF.ReflectionSpecifications]: https://www.nuget.org/packages/CSF.ReflectionSpecifications/
+[static reflection]: https://github.com/csf-dev/CSF.Reflection/wiki/StaticReflection
+[specification classes]: https://github.com/csf-dev/CSF.Specifications
+[the wiki for this repository]: https://github.com/csf-dev/CSF.Reflection/wiki
