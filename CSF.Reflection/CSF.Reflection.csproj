@@ -26,15 +26,6 @@
     <DebugType></DebugType>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CSF.Reflection.xml</DocumentationFile>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Reference Include="System.Runtime" Condition="$(TargetFramework.StartsWith('net4'))" />
-    <Reference Include="System.Linq.Expressions" Condition="$(TargetFramework.StartsWith('net4'))" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CSF.Specifications" Version="[1.1.0,2.0.0)" />
-  </ItemGroup>
     
   <Import Project="..\Tools\EnableNet45BuildOnUnix.targets" />
 </Project>

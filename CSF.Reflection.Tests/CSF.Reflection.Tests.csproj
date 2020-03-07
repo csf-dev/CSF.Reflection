@@ -22,6 +22,8 @@
   
   <ItemGroup>
     <ProjectReference Include="..\CSF.Reflection\CSF.Reflection.csproj" />
+    <ProjectReference Include="..\CSF.ReflectionSpecifications\CSF.ReflectionSpecifications.csproj" />
+    <ProjectReference Include="..\CSF.Reflector\CSF.Reflector.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="TestResource.txt" />

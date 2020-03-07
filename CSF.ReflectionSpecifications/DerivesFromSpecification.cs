@@ -33,7 +33,7 @@ namespace CSF.Reflection
     /// <summary>
     /// Specification for a <c>System.Type</c> which matches types which derive from a given type.
     /// </summary>
-    public class DerivesFromSpecification : SpecificationExpression<Type>
+    public class DerivesFromSpecification : ISpecificationExpression<Type>
     {
         readonly Type baseType;
 
@@ -41,7 +41,7 @@ namespace CSF.Reflection
         /// Gets the match expression.
         /// </summary>
         /// <returns>The expression.</returns>
-        public override Expression<Func<Type, bool>> GetExpression()
+        public Expression<Func<Type, bool>> GetExpression()
         {
             return x => baseType.GetTypeInfo().IsAssignableFrom(x.GetTypeInfo());
         }
