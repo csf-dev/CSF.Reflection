@@ -1,10 +1,10 @@
-//
-// Reflect.cs
+﻿//
+// IStaticallyReflects.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2015 CSF Software Limited
+// Copyright (c) 2020 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -31,12 +30,11 @@ using System.Reflection;
 namespace CSF.Reflection
 {
     /// <summary>
-    /// Helper class for reflection-related tasks.
+    /// A service which performs static reflection.  It gets <c>MemberInfo</c> instances based upon
+    /// an expression lambda indicating a property, field, method or other member.
     /// </summary>
-    public static class Reflect
+    public interface IStaticallyReflects
     {
-        static readonly IStaticallyReflects impl = new Reflector();
-
         /// <summary>
         /// Gets a <see cref="MemberInfo"/> from an expression that indicates a member of a specified type.
         /// </summary>
@@ -55,7 +53,7 @@ namespace CSF.Reflection
         /// <exception cref='ArgumentException'>
         /// Is thrown when an argument passed to a method is invalid.
         /// </exception>
-        public static MemberInfo Member<TObject>(Expression<Func<TObject, object>> expression) => impl.Member(expression);
+        MemberInfo Member<TObject>(Expression<Func<TObject, object>> expression);
 
         /// <summary>
         /// Gets a <see cref="MemberInfo"/> from an expression that indicates a member of a specified type.
@@ -78,7 +76,7 @@ namespace CSF.Reflection
         /// <exception cref='ArgumentException'>
         /// Is thrown when an argument passed to a method is invalid.
         /// </exception>
-        public static MemberInfo Member<TObject, TReturn>(Expression<Func<TObject, TReturn>> expression) => impl.Member(expression);
+        MemberInfo Member<TObject, TReturn>(Expression<Func<TObject, TReturn>> expression);
 
         /// <summary>
         /// Gets a <see cref="MemberInfo"/> from an expression that indicates a member of a specified type.
@@ -98,7 +96,7 @@ namespace CSF.Reflection
         /// <exception cref='ArgumentException'>
         /// Is thrown when an argument passed to a method is invalid.
         /// </exception>
-        public static MemberInfo Member<TObject>(Expression<Action<TObject>> expression) => impl.Member(expression);
+        MemberInfo Member<TObject>(Expression<Action<TObject>> expression);
 
         /// <summary>
         /// Gets a <see cref="PropertyInfo"/> from an expression that indicates a member of a specified type.
@@ -118,7 +116,7 @@ namespace CSF.Reflection
         /// <exception cref='ArgumentException'>
         /// Is thrown when an argument passed to a method is invalid.
         /// </exception>
-        public static PropertyInfo Property<TObject>(Expression<Func<TObject, object>> expression) => impl.Property(expression);
+        PropertyInfo Property<TObject>(Expression<Func<TObject, object>> expression);
 
         /// <summary>
         /// Gets a <see cref="PropertyInfo"/> from an expression that indicates a member of a specified type.
@@ -141,7 +139,7 @@ namespace CSF.Reflection
         /// <exception cref='ArgumentException'>
         /// Is thrown when an argument passed to a method is invalid.
         /// </exception>
-        public static PropertyInfo Property<TObject, TReturn>(Expression<Func<TObject, TReturn>> expression) => impl.Property(expression);
+        PropertyInfo Property<TObject, TReturn>(Expression<Func<TObject, TReturn>> expression);
 
         /// <summary>
         /// Gets a <see cref="FieldInfo"/> from an expression that indicates a member of a specified type.
@@ -161,7 +159,7 @@ namespace CSF.Reflection
         /// <exception cref='ArgumentException'>
         /// Is thrown when an argument passed to a method is invalid.
         /// </exception>
-        public static FieldInfo Field<TObject>(Expression<Func<TObject, object>> expression) => impl.Field(expression);
+        FieldInfo Field<TObject>(Expression<Func<TObject, object>> expression);
 
         /// <summary>
         /// Gets a <see cref="FieldInfo"/> from an expression that indicates a member of a specified type.
@@ -184,7 +182,7 @@ namespace CSF.Reflection
         /// <exception cref='ArgumentException'>
         /// Is thrown when an argument passed to a method is invalid.
         /// </exception>
-        public static FieldInfo Field<TObject, TReturn>(Expression<Func<TObject, TReturn>> expression) => impl.Field(expression);
+        FieldInfo Field<TObject, TReturn>(Expression<Func<TObject, TReturn>> expression);
 
         /// <summary>
         /// Gets a <see cref="MethodInfo"/> from an expression that indicates a member of a specified type.
@@ -204,7 +202,7 @@ namespace CSF.Reflection
         /// <exception cref='ArgumentException'>
         /// Is thrown when an argument passed to a method is invalid.
         /// </exception>
-        public static MethodInfo Method<TObject>(Expression<Func<TObject, object>> expression) => impl.Method(expression);
+        MethodInfo Method<TObject>(Expression<Func<TObject, object>> expression);
 
         /// <summary>
         /// Gets a <see cref="MethodInfo"/> from an expression that indicates a member of a specified type.
@@ -227,7 +225,7 @@ namespace CSF.Reflection
         /// <exception cref='ArgumentException'>
         /// Is thrown when an argument passed to a method is invalid.
         /// </exception>
-        public static MethodInfo Method<TObject, TReturn>(Expression<Func<TObject, TReturn>> expression) => impl.Method(expression);
+        MethodInfo Method<TObject, TReturn>(Expression<Func<TObject, TReturn>> expression);
 
         /// <summary>
         /// Gets a <see cref="MethodInfo"/> from an expression that indicates a member of a specified type.
@@ -247,7 +245,6 @@ namespace CSF.Reflection
         /// <exception cref='ArgumentException'>
         /// Is thrown when an argument passed to a method is invalid.
         /// </exception>
-        public static MethodInfo Method<TObject>(Expression<Action<TObject>> expression) => impl.Method(expression);
+        MethodInfo Method<TObject>(Expression<Action<TObject>> expression);
     }
 }
-
