@@ -35,7 +35,7 @@ namespace CSF.Reflection
     /// Specification for a <c>System.Type</c> which matches types which derive from a generic form of an
     /// open-generic interface.
     /// </summary>
-    public class DerivesFromOpenGenericInterfaceSpecification : SpecificationExpression<Type>
+    public class DerivesFromOpenGenericInterfaceSpecification : ISpecificationExpression<Type>
     {
         readonly Type baseType;
 
@@ -43,7 +43,7 @@ namespace CSF.Reflection
         /// Gets the match expression.
         /// </summary>
         /// <returns>The expression.</returns>
-        public override Expression<Func<Type, bool>> GetExpression()
+        public Expression<Func<Type, bool>> GetExpression()
         {
             return x => (from iface in x.GetTypeInfo().ImplementedInterfaces
                          where iface.GetTypeInfo().IsGenericType
@@ -63,6 +63,8 @@ namespace CSF.Reflection
                 throw new ArgumentNullException(nameof(baseType));
             if (!baseType.GetTypeInfo().IsGenericTypeDefinition)
                 throw new ArgumentException("The base type must be an open generic type.", nameof(baseType));
+            if (!baseType.GetTypeInfo().IsInterface)
+                throw new ArgumentException("The base type must be an interface type", nameof(baseType));
 
             this.baseType = baseType;
         }

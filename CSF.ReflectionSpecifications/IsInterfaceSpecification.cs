@@ -33,13 +33,13 @@ namespace CSF.Reflection
     /// <summary>
     /// Specification for a <c>System.Type</c> which matches interfaces.
     /// </summary>
-    public class IsInterfaceSpecification : SpecificationExpression<Type>
+    public class IsInterfaceSpecification : ISpecificationExpression<Type>
     {
         /// <summary>
         /// Gets the match expression.
         /// </summary>
         /// <returns>The expression.</returns>
-        public override Expression<Func<Type, bool>> GetExpression()
+        public Expression<Func<Type, bool>> GetExpression()
         {
             return x => x.GetTypeInfo().IsInterface;
         }

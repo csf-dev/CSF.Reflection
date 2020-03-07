@@ -60,9 +60,7 @@ namespace CSF.Reflection
 Resource name:{resourceName}");
 
                 using (var reader = new StreamReader(resourceStream))
-                {
                     return reader.ReadToEnd();
-                }
             }
         }
 

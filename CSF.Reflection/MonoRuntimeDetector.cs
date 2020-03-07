@@ -41,9 +41,6 @@ namespace CSF.Reflection
         /// <returns>
         /// <c>true</c> if the application is executing on the mono framework; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsExecutingWithMono()
-        {
-            return Type.GetType(MONO_TYPE) != null;
-        }
+        public bool IsExecutingWithMono() => Type.GetType(MONO_TYPE) != null;
     }
 }
