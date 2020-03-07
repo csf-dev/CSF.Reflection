@@ -63,6 +63,8 @@ namespace CSF.Reflection
                 throw new ArgumentNullException(nameof(baseType));
             if (!baseType.GetTypeInfo().IsGenericTypeDefinition)
                 throw new ArgumentException("The base type must be an open generic type.", nameof(baseType));
+            if (!baseType.GetTypeInfo().IsInterface)
+                throw new ArgumentException("The base type must be an interface type", nameof(baseType));
 
             this.baseType = baseType;
         }

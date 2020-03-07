@@ -5,7 +5,7 @@
         
     <PackageId>CSF.ReflectionSpecifications</PackageId>
     <Authors>craigfowler</Authors>
-    <Description>Utilities to make reflection (particularly static reflection) simpler.</Description>
+    <Description>Specification types (see CSF.Specifications) for filtering types.  Most likely useful when performing assembly-scanning.</Description>
     <ReleaseVersion>2.1.0</ReleaseVersion>
     <Version>$(ReleaseVersion)</Version>
     <PackageVersion>$(ReleaseVersion)</PackageVersion>

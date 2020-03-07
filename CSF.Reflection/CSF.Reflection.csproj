@@ -5,7 +5,7 @@
         
     <PackageId>CSF.Reflection</PackageId>
     <Authors>craigfowler</Authors>
-    <Description>Utilities to make reflection (particularly static reflection) simpler.</Description>
+    <Description>Assorted utility types related to reflection.</Description>
     <ReleaseVersion>2.1.0</ReleaseVersion>
     <Version>$(ReleaseVersion)</Version>
     <PackageVersion>$(ReleaseVersion)</PackageVersion>
