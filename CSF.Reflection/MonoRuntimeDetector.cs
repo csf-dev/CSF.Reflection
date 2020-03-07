@@ -26,24 +26,24 @@
 using System;
 namespace CSF.Reflection
 {
-  /// <summary>
-  /// Implementation of <see cref="IDetectsMono"/> which uses the mechanism documented here:
-  /// https://www.mono-project.com/docs/faq/technical/#how-can-i-detect-if-am-running-in-mono
-  /// </summary>
-  public class MonoRuntimeDetector : IDetectsMono
-  {
-    const string MONO_TYPE = "Mono.Runtime";
-
     /// <summary>
-    /// Determines whether the application is executing using the Mono framework.  This uses the supported manner of
-    /// detecting mono.
+    /// Implementation of <see cref="IDetectsMono"/> which uses the mechanism documented here:
+    /// https://www.mono-project.com/docs/faq/technical/#how-can-i-detect-if-am-running-in-mono
     /// </summary>
-    /// <returns>
-    /// <c>true</c> if the application is executing on the mono framework; otherwise, <c>false</c>.
-    /// </returns>
-    public bool IsExecutingWithMono()
+    public class MonoRuntimeDetector : IDetectsMono
     {
-      return Type.GetType(MONO_TYPE) != null;
+        const string MONO_TYPE = "Mono.Runtime";
+
+        /// <summary>
+        /// Determines whether the application is executing using the Mono framework.  This uses the supported manner of
+        /// detecting mono.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if the application is executing on the mono framework; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsExecutingWithMono()
+        {
+            return Type.GetType(MONO_TYPE) != null;
+        }
     }
-  }
 }

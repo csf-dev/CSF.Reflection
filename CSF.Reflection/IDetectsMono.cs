@@ -26,15 +26,15 @@
 using System;
 namespace CSF.Reflection
 {
-  /// <summary>
-  /// A service which detects/indicates whether or not the Mono framework is in use or not.
-  /// </summary>
-  public interface IDetectsMono
-  {
     /// <summary>
-    /// Gets a value indicating whether the current runtime is the Mono framework.
+    /// A service which detects/indicates whether or not the Mono framework is in use or not.
     /// </summary>
-    /// <returns><c>true</c>, if the current execution environment is using the Mono framework, <c>false</c> otherwise.</returns>
-    bool IsExecutingWithMono();
-  }
+    public interface IDetectsMono
+    {
+        /// <summary>
+        /// Gets a value indicating whether the current runtime is the Mono framework.
+        /// </summary>
+        /// <returns><c>true</c>, if the current execution environment is using the Mono framework, <c>false</c> otherwise.</returns>
+        bool IsExecutingWithMono();
+    }
 }

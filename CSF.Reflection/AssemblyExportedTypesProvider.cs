@@ -30,21 +30,21 @@ using System.Reflection;
 
 namespace CSF.Reflection
 {
-  /// <summary>
-  /// Implementation of <see cref="IGetsTypes"/> which gets all of the exported types in an assembly.
-  /// This class is intended to be subclassed in your own projects, providing access to the types in that
-  /// same assembly as your subclass.
-  /// </summary>
-  public abstract class AssemblyExportedTypesProvider : IGetsTypes
-  {
     /// <summary>
-    /// Get a collection of types representing those which are in the same assembly as the current instance.
+    /// Implementation of <see cref="IGetsTypes"/> which gets all of the exported types in an assembly.
+    /// This class is intended to be subclassed in your own projects, providing access to the types in that
+    /// same assembly as your subclass.
     /// </summary>
-    /// <returns>The types.</returns>
-    public virtual IReadOnlyCollection<Type> GetTypes()
+    public abstract class AssemblyExportedTypesProvider : IGetsTypes
     {
-      var assembly = GetType().GetTypeInfo().Assembly;
-      return assembly.ExportedTypes.ToArray();
+        /// <summary>
+        /// Get a collection of types representing those which are in the same assembly as the current instance.
+        /// </summary>
+        /// <returns>The types.</returns>
+        public virtual IReadOnlyCollection<Type> GetTypes()
+        {
+            var assembly = GetType().GetTypeInfo().Assembly;
+            return assembly.ExportedTypes.ToArray();
+        }
     }
-  }
 }
