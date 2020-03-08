@@ -28,7 +28,7 @@ using CSF.Specifications;
 
 namespace CSF.Reflection.Tests
 {
-    [TestFixture]
+    [TestFixture, Parallelizable]
     public class DerivesFromSpecificationTests
     {
         [Test]

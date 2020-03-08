@@ -24,6 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -35,9 +36,9 @@ namespace CSF.Reflection
     /// Specification for a <c>System.Type</c> which matches types which derive from a generic form of an
     /// open-generic interface.
     /// </summary>
-    public class DerivesFromOpenGenericInterfaceSpecification : ISpecificationExpression<Type>
+    public class DerivesFromOpenGenericSpecification : ISpecificationExpression<Type>
     {
-        readonly Type baseType;
+        readonly Type type;
 
         /// <summary>
         /// Gets the match expression.
@@ -45,28 +46,52 @@ namespace CSF.Reflection
         /// <returns>The expression.</returns>
         public Expression<Func<Type, bool>> GetExpression()
         {
+            return type.GetTypeInfo().IsInterface ? GetInterfaceExpression() : GetClassExpression();
+        }
+
+        Expression<Func<Type, bool>> GetInterfaceExpression()
+        {
             return x => (from iface in x.GetTypeInfo().ImplementedInterfaces
                          where iface.GetTypeInfo().IsGenericType
                          let genericIface = iface.GetGenericTypeDefinition()
-                         where genericIface == baseType
+                         where genericIface == type
                          select iface)
               .Any();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:CSF.Reflection.DerivesFromOpenGenericInterfaceSpecification"/> class.
-        /// </summary>
-        /// <param name="baseType">Base type.</param>
-        public DerivesFromOpenGenericInterfaceSpecification(Type baseType)
+        Expression<Func<Type, bool>> GetClassExpression()
         {
-            if (baseType == null)
-                throw new ArgumentNullException(nameof(baseType));
-            if (!baseType.GetTypeInfo().IsGenericTypeDefinition)
-                throw new ArgumentException("The base type must be an open generic type.", nameof(baseType));
-            if (!baseType.GetTypeInfo().IsInterface)
-                throw new ArgumentException("The base type must be an interface type", nameof(baseType));
+            return x => (from baseType in GetAllBaseTypes(x)
+                         where baseType.GetTypeInfo().IsGenericType
+                         let genericBaseType = baseType.GetGenericTypeDefinition()
+                         where genericBaseType == type
+                         select baseType)
+              .Any();
+        }
 
-            this.baseType = baseType;
+        IEnumerable<Type> GetAllBaseTypes(Type t)
+        {
+            var currentType = t.GetTypeInfo().BaseType;
+            while(currentType != null)
+            {
+                yield return currentType;
+                if (currentType == typeof(object)) yield break;
+                currentType = t.GetTypeInfo().BaseType;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DerivesFromOpenGenericSpecification"/> class.
+        /// </summary>
+        /// <param name="type">An open generic type.</param>
+        public DerivesFromOpenGenericSpecification(Type type)
+        {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+            if (!type.GetTypeInfo().IsGenericTypeDefinition)
+                throw new ArgumentException("The base type must be an open generic type.", nameof(type));
+
+            this.type = type;
         }
     }
 }

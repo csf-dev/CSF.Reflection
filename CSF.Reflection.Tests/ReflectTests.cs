@@ -29,8 +29,8 @@ using System.Reflection;
 
 namespace CSF.Reflection.Tests
 {
-    [TestFixture]
-    public class TestReflect
+    [TestFixture, Parallelizable]
+    public class ReflectTests
     {
         #region static reflection tests
 

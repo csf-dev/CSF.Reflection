@@ -28,37 +28,50 @@ using CSF.Specifications;
 
 namespace CSF.Reflection.Tests
 {
-    [TestFixture]
-    public class DerivesFromOpenGenericInterfaceSpecificationTests
+    [TestFixture, Parallelizable]
+    public class DerivesFromOpenGenericSpecificationTests
     {
         [Test]
         public void Matches_returns_true_for_a_derived_class()
         {
-            // Arrange
-            var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
+            var sut = new DerivesFromOpenGenericSpecification(typeof(IBase<>));
 
-            // Act
             var result = sut.Matches(typeof(Derived));
 
-            // Assert
             Assert.That(result, Is.True);
         }
 
         [Test]
         public void Matches_returns_false_for_a_non_derived_class()
         {
-            // Arrange
-            var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
+            var sut = new DerivesFromOpenGenericSpecification(typeof(IBase<>));
 
-            // Act
             var result = sut.Matches(typeof(NotDerived));
 
-            // Assert
             Assert.That(result, Is.False);
         }
+
+        [Test]
+        public void Matches_returns_true_for_a_subclass()
+        {
+            var sut = new DerivesFromOpenGenericSpecification(typeof(BaseClass<>));
+
+            Assert.That(() => sut.Matches(typeof(Subclass)), Is.True);
+        }
+
+        [Test]
+        public void Matches_returns_false_for_a_non_derived_class_when_using_a_base_class()
+        {
+            var sut = new DerivesFromOpenGenericSpecification(typeof(BaseClass<>));
+
+            Assert.That(() => sut.Matches(typeof(NotDerived)), Is.False);
+        }
+
 
         internal interface IBase<T> { }
         internal class Derived : IBase<string> { }
         internal class NotDerived { }
+        internal class BaseClass<T> { }
+        internal class Subclass : BaseClass<string> { }
     }
 }

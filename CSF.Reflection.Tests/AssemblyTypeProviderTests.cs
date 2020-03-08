@@ -28,7 +28,7 @@ using NUnit.Framework;
 
 namespace CSF.Reflection.Tests
 {
-    [TestFixture]
+    [TestFixture,Parallelizable]
     public class AssemblyTypeProviderTests
     {
         [Test]
