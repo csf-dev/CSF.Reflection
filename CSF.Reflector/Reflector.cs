@@ -311,14 +311,14 @@ namespace CSF.Reflection
             if (expression == null)
                 throw new ArgumentNullException(nameof(expression));
 
-            if (expression is UnaryExpression)
-                return Member(((UnaryExpression)expression).Operand);
+            if (expression is UnaryExpression unaryExpression)
+                return Member(unaryExpression.Operand);
 
-            if (expression is MemberExpression)
-                return ((MemberExpression)expression).Member;
+            if (expression is MemberExpression memberExpression)
+                return memberExpression.Member;
 
-            if (expression is MethodCallExpression)
-                return ((MethodCallExpression)expression).Method;
+            if (expression is MethodCallExpression methodCallExpression)
+                return methodCallExpression.Method;
 
             throw new ArgumentException($@"The expression must indicate a member.
 Expression:{expression}", nameof(expression));
