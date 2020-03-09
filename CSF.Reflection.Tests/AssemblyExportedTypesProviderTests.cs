@@ -1,5 +1,5 @@
 ﻿//
-// AssemblyTypeProvider.cs
+// AssemblyTypeProviderTests.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
@@ -23,39 +23,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
-using System.Collections.Generic;
 using System.Reflection;
+using NUnit.Framework;
 
-namespace CSF.Reflection
+namespace CSF.Reflection.Tests
 {
-    /// <summary>
-    /// <para>
-    /// Implementation of <see cref="IGetsTypes"/> which gets the exported types defined in the assembly
-    /// where the current type is declared.
-    /// </para>
-    /// <para>
-    /// This class is intended to be subclassed in your own projects, providing access to the types in the
-    /// assembly where the subclass is declared.
-    /// </para>
-    /// </summary>
-    public abstract class AssemblyExportedTypesProvider : IGetsTypes
+    [TestFixture,Parallelizable]
+    public class AssemblyExportedTypesProviderTests
     {
-        readonly IGetsTypes provider;
-
-        /// <summary>
-        /// Get a collection of types.
-        /// </summary>
-        /// <returns>A collection of types.</returns>
-        public virtual IReadOnlyCollection<Type> GetTypes() => provider.GetTypes();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyExportedTypesProvider"/> class.
-        /// </summary>
-        protected AssemblyExportedTypesProvider()
+        [Test]
+        public void GetTypes_returns_all_types_in_the_current_assembly()
         {
-            var assembly = GetType().GetTypeInfo().Assembly;
-            provider = new AssemblyExportedTypesAdapter(assembly);
+            // Act
+            var result = new TestAssemblyTypeProvider().GetTypes();
+
+            // Assert
+            Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
         }
+
+        internal class TestAssemblyTypeProvider : AssemblyExportedTypesProvider { }
     }
 }

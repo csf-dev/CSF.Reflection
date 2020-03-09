@@ -1,10 +1,10 @@
 ﻿//
-// AssemblyTypeProviderTests.cs
+// AssemblyExportedTypesAdapter.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2020 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,24 +23,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using NUnit.Framework;
 
-namespace CSF.Reflection.Tests
+namespace CSF.Reflection
 {
-    [TestFixture,Parallelizable]
-    public class AssemblyTypeProviderTests
+    /// <summary>
+    /// An object which gets all of the exported types provided by
+    /// an assembly specified within its constructor.
+    /// </summary>
+    public class AssemblyExportedTypesAdapter : IGetsTypes
     {
-        [Test]
-        public void GetTypes_returns_all_types_in_the_current_assembly()
-        {
-            // Act
-            var result = new TestAssemblyTypeProvider().GetTypes();
+        readonly Assembly assembly;
 
-            // Assert
-            Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
+        /// <summary>
+        /// Get a collection of types.
+        /// </summary>
+        /// <returns>The types.</returns>
+        public IReadOnlyCollection<Type> GetTypes()
+        {
+            return assembly.ExportedTypes.ToArray();
         }
 
-        internal class TestAssemblyTypeProvider : AssemblyExportedTypesProvider { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssemblyExportedTypesAdapter"/> class.
+        /// </summary>
+        /// <param name="assembly">The assembly to search for types.</param>
+        public AssemblyExportedTypesAdapter(Assembly assembly)
+        {
+            this.assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
+        }
     }
 }

@@ -1,10 +1,10 @@
 ﻿//
-// AssemblyTypeProvider.cs
+// AssemblyAllTypesAdapter.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2020 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,38 +25,35 @@
 // THE SOFTWARE.
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace CSF.Reflection
 {
     /// <summary>
-    /// <para>
-    /// Implementation of <see cref="IGetsTypes"/> which gets all of the types defined in the assembly
-    /// where the current type is declared. This includes types which would not normally be
-    /// 'visible' outside of the assembly (such as <c>internal</c> types).
-    /// </para>
-    /// <para>
-    /// This class is intended to be subclassed in your own projects, providing access to the types in the
-    /// assembly where the subclass is declared.
-    /// </para>
+    /// An object which gets all of the types (including <c>internal</c> types) provided by
+    /// an assembly specified within its constructor.
     /// </summary>
-    public abstract class AssemblyAllTypesProvider : IGetsTypes
+    public class AssemblyAllTypesAdapter : IGetsTypes
     {
-        readonly IGetsTypes provider;
+        readonly Assembly assembly;
 
         /// <summary>
         /// Get a collection of types.
         /// </summary>
-        /// <returns>A collection of types.</returns>
-        public virtual IReadOnlyCollection<Type> GetTypes() => provider.GetTypes();
+        /// <returns>The types.</returns>
+        public IReadOnlyCollection<Type> GetTypes()
+        {
+            return assembly.DefinedTypes.Select(x => x.AsType()).ToArray();
+        }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyAllTypesProvider"/> class.
+        /// Initializes a new instance of the <see cref="AssemblyAllTypesAdapter"/> class.
         /// </summary>
-        protected AssemblyAllTypesProvider()
+        /// <param name="assembly">The assembly to search for types.</param>
+        public AssemblyAllTypesAdapter(Assembly assembly)
         {
-            var assembly = GetType().GetTypeInfo().Assembly;
-            provider = new AssemblyAllTypesAdapter(assembly);
+            this.assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
         }
     }
 }
