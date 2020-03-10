@@ -1,10 +1,10 @@
 ﻿//
-// DerivesFromSpecification.cs
+// AssemblyAllTypesAdapter.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2020 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,37 +24,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using CSF.Specifications;
 
 namespace CSF.Reflection
 {
     /// <summary>
-    /// Specification for a <c>System.Type</c> which matches types which derive from a given type.
+    /// An object which gets all of the types (including <c>internal</c> types) provided by
+    /// an assembly specified within its constructor.
     /// </summary>
-    public class DerivesFromSpecification : SpecificationExpression<Type>
+    public class AssemblyAllTypesAdapter : IGetsTypes
     {
-        readonly Type baseType;
+        readonly Assembly assembly;
 
         /// <summary>
-        /// Gets the match expression.
+        /// Get a collection of types.
         /// </summary>
-        /// <returns>The expression.</returns>
-        public override Expression<Func<Type, bool>> GetExpression()
+        /// <returns>The types.</returns>
+        public IReadOnlyCollection<Type> GetTypes()
         {
-            return x => baseType.GetTypeInfo().IsAssignableFrom(x.GetTypeInfo());
+            return assembly.DefinedTypes.Select(x => x.AsType()).ToArray();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:CSF.Reflection.DerivesFromSpecification"/> class.
+        /// Initializes a new instance of the <see cref="AssemblyAllTypesAdapter"/> class.
         /// </summary>
-        /// <param name="baseType">Base type.</param>
-        public DerivesFromSpecification(Type baseType)
+        /// <param name="assembly">The assembly to search for types.</param>
+        public AssemblyAllTypesAdapter(Assembly assembly)
         {
-            if (baseType == null)
-                throw new ArgumentNullException(nameof(baseType));
-            this.baseType = baseType;
+            this.assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
         }
     }
 }

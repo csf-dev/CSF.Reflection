@@ -1,10 +1,10 @@
 ﻿//
-// DerivesFromOpenGenericInterfaceSpecificationTests.cs
+// AggregatingTypesAdapterTests.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2020 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,41 +23,23 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+using System;
+using Moq;
 using NUnit.Framework;
 
 namespace CSF.Reflection.Tests
 {
-    [TestFixture]
-    public class DerivesFromOpenGenericInterfaceSpecificationTests
+    [TestFixture,Parallelizable]
+    public class AggregatingTypesAdapterTests
     {
         [Test]
-        public void Matches_returns_true_for_a_derived_class()
+        public void GetTypes_returns_all_types_from_all_providers()
         {
-            // Arrange
-            var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
+            var provider1 = Mock.Of<IGetsTypes>(x => x.GetTypes() == new[] { typeof(string), typeof(int) });
+            var provider2 = Mock.Of<IGetsTypes>(x => x.GetTypes() == new[] { typeof(long), typeof(bool) });
+            var sut = new AggregatingTypesAdapter(provider1, provider2);
 
-            // Act
-            var result = sut.Matches(typeof(Derived));
-
-            // Assert
-            Assert.That(result, Is.True);
+            Assert.That(() => sut.GetTypes(), Is.EquivalentTo(new[] { typeof(string), typeof(int), typeof(long), typeof(bool) }));
         }
-
-        [Test]
-        public void Matches_returns_false_for_a_non_derived_class()
-        {
-            // Arrange
-            var sut = new DerivesFromOpenGenericInterfaceSpecification(typeof(IBase<>));
-
-            // Act
-            var result = sut.Matches(typeof(NotDerived));
-
-            // Assert
-            Assert.That(result, Is.False);
-        }
-
-        internal interface IBase<T> { }
-        internal class Derived : IBase<string> { }
-        internal class NotDerived { }
     }
 }

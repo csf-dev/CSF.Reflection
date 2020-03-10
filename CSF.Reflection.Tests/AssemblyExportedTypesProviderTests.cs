@@ -1,5 +1,5 @@
 ﻿//
-// IsConcreteSpecification.cs
+// AssemblyTypeProviderTests.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
@@ -23,25 +23,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
-using System.Linq.Expressions;
 using System.Reflection;
-using CSF.Specifications;
+using NUnit.Framework;
 
-namespace CSF.Reflection
+namespace CSF.Reflection.Tests
 {
-    /// <summary>
-    /// Specification for a <c>System.Type</c> which matches concrete types (non-abstract classes).
-    /// </summary>
-    public class IsConcreteClassSpecification : SpecificationExpression<Type>
+    [TestFixture,Parallelizable]
+    public class AssemblyExportedTypesProviderTests
     {
-        /// <summary>
-        /// Gets the match expression.
-        /// </summary>
-        /// <returns>The expression.</returns>
-        public override Expression<Func<Type, bool>> GetExpression()
+        [Test]
+        public void GetTypes_returns_all_types_in_the_current_assembly()
         {
-            return x => x.GetTypeInfo().IsClass && !x.GetTypeInfo().IsAbstract;
+            // Act
+            var result = new TestAssemblyTypeProvider().GetTypes();
+
+            // Assert
+            Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
         }
+
+        internal class TestAssemblyTypeProvider : AssemblyExportedTypesProvider { }
     }
 }

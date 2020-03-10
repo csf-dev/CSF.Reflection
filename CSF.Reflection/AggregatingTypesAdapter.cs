@@ -1,10 +1,10 @@
 ﻿//
-// AssemblyTypeProvider.cs
+// AggregatingTypesAdapter.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2020 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,38 +25,37 @@
 // THE SOFTWARE.
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 
 namespace CSF.Reflection
 {
     /// <summary>
-    /// <para>
-    /// Implementation of <see cref="IGetsTypes"/> which gets all of the types defined in the assembly
-    /// where the current type is declared. This includes types which would not normally be
-    /// 'visible' outside of the assembly (such as <c>internal</c> types).
-    /// </para>
-    /// <para>
-    /// This class is intended to be subclassed in your own projects, providing access to the types in the
-    /// assembly where the subclass is declared.
-    /// </para>
+    /// A service which gets and returns types from many other implementations of <see cref="IGetsTypes"/>,
+    /// specified as constructor parameters to the current instance.
     /// </summary>
-    public abstract class AssemblyAllTypesProvider : IGetsTypes
+    public class AggregatingTypesAdapter : IGetsTypes
     {
-        readonly IGetsTypes provider;
+        readonly IEnumerable<IGetsTypes> providers;
 
         /// <summary>
         /// Get a collection of types.
         /// </summary>
-        /// <returns>A collection of types.</returns>
-        public virtual IReadOnlyCollection<Type> GetTypes() => provider.GetTypes();
+        /// <returns>The types.</returns>
+        public IReadOnlyCollection<Type> GetTypes() => providers.SelectMany(x => x.GetTypes()).ToArray();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyAllTypesProvider"/> class.
+        /// Initializes a new instance of the <see cref="AggregatingTypesAdapter"/> class.
         /// </summary>
-        protected AssemblyAllTypesProvider()
+        /// <param name="providers">The providers from which to aggregate the results.</param>
+        public AggregatingTypesAdapter(params IGetsTypes[] providers) : this((IEnumerable<IGetsTypes>) providers) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AggregatingTypesAdapter"/> class.
+        /// </summary>
+        /// <param name="providers">The providers from which to aggregate the results.</param>
+        public AggregatingTypesAdapter(IEnumerable<IGetsTypes> providers)
         {
-            var assembly = GetType().GetTypeInfo().Assembly;
-            provider = new AssemblyAllTypesAdapter(assembly);
+            this.providers = providers ?? throw new ArgumentNullException(nameof(providers));
         }
     }
 }

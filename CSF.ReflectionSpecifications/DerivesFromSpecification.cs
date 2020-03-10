@@ -1,10 +1,10 @@
-//
-// TestTypeExtensions.cs
+﻿//
+// DerivesFromSpecification.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2015 CSF Software Limited
+// Copyright (c) 2019 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,57 +23,38 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+using System;
+using System.Linq.Expressions;
+using System.Reflection;
+using CSF.Specifications;
 
-using NUnit.Framework;
-
-namespace CSF.Reflection.Tests
+namespace CSF.Reflection
 {
-    [TestFixture]
-    public class TestTypeExtensions
+    /// <summary>
+    /// Specification for a <c>System.Type</c> which matches types which derive from a given type.
+    /// </summary>
+    public class DerivesFromSpecification : ISpecificationExpression<Type>
     {
-        #region tests
+        readonly Type baseType;
 
-        [Test]
-        public void GetDefaultValue_gets_correct_value_for_value_type()
+        /// <summary>
+        /// Gets the match expression.
+        /// </summary>
+        /// <returns>The expression.</returns>
+        public Expression<Func<Type, bool>> GetExpression()
         {
-            // Arrange
-
-
-            // Act
-            var result = typeof(int).GetDefaultValue();
-
-            // Assert
-            Assert.AreEqual(0, result);
+            return x => baseType.GetTypeInfo().IsAssignableFrom(x.GetTypeInfo());
         }
 
-        [Test]
-        public void GetDefaultValue_gets_correct_value_for_reference_type()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:CSF.Reflection.DerivesFromSpecification"/> class.
+        /// </summary>
+        /// <param name="baseType">Base type.</param>
+        public DerivesFromSpecification(Type baseType)
         {
-            // Arrange
-
-
-            // Act
-            var result = typeof(Foo).GetDefaultValue();
-
-            // Assert
-            Assert.AreEqual(null, result);
+            if (baseType == null)
+                throw new ArgumentNullException(nameof(baseType));
+            this.baseType = baseType;
         }
-
-        #endregion
-
-        #region contained classes
-
-        class Foo { }
-
-        class Bar : Foo, IMarker { }
-
-        class Baz : Bar, IMarker<int> { }
-
-        interface IMarker { }
-
-        interface IMarker<T> { }
-
-        #endregion
     }
 }
-

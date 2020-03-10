@@ -25,26 +25,37 @@
 // THE SOFTWARE.
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace CSF.Reflection
 {
     /// <summary>
-    /// Implementation of <see cref="IGetsTypes"/> which gets all of the exported types in an assembly.
-    /// This class is intended to be subclassed in your own projects, providing access to the types in that
-    /// same assembly as your subclass.
+    /// <para>
+    /// Implementation of <see cref="IGetsTypes"/> which gets the exported types defined in the assembly
+    /// where the current type is declared.
+    /// </para>
+    /// <para>
+    /// This class is intended to be subclassed in your own projects, providing access to the types in the
+    /// assembly where the subclass is declared.
+    /// </para>
     /// </summary>
     public abstract class AssemblyExportedTypesProvider : IGetsTypes
     {
+        readonly IGetsTypes provider;
+
         /// <summary>
-        /// Get a collection of types representing those which are in the same assembly as the current instance.
+        /// Get a collection of types.
         /// </summary>
-        /// <returns>The types.</returns>
-        public virtual IReadOnlyCollection<Type> GetTypes()
+        /// <returns>A collection of types.</returns>
+        public virtual IReadOnlyCollection<Type> GetTypes() => provider.GetTypes();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssemblyExportedTypesProvider"/> class.
+        /// </summary>
+        protected AssemblyExportedTypesProvider()
         {
             var assembly = GetType().GetTypeInfo().Assembly;
-            return assembly.ExportedTypes.ToArray();
+            provider = new AssemblyExportedTypesAdapter(assembly);
         }
     }
 }

@@ -30,8 +30,8 @@ using System.Resources;
 
 namespace CSF.Reflection.Tests
 {
-    [TestFixture]
-    public class TestAssemblyExtensions
+    [TestFixture, Parallelizable]
+    public class AssemblyExtensionsTests
     {
         [Test]
         public void TestGetManifestResourceText()
@@ -51,7 +51,7 @@ namespace CSF.Reflection.Tests
         [Test]
         public void TestGetManifestResourceTextType()
         {
-            string resourceText = Assembly.GetExecutingAssembly().GetManifestResourceText(typeof(TestAssemblyExtensions),
+            string resourceText = Assembly.GetExecutingAssembly().GetManifestResourceText(typeof(AssemblyExtensionsTests),
                                                                                           "TestResourceType.txt");
             Assert.AreEqual("This is a test resource file, stored by namespace", resourceText, "Correct resource text");
         }
@@ -59,7 +59,7 @@ namespace CSF.Reflection.Tests
         [Test]
         public void TestGetManifestResourceTextTypeInvalid()
         {
-            Assert.That(() => Assembly.GetExecutingAssembly().GetManifestResourceText(typeof(TestAssemblyExtensions), "Nonexistent.txt"),
+            Assert.That(() => Assembly.GetExecutingAssembly().GetManifestResourceText(typeof(AssemblyExtensionsTests), "Nonexistent.txt"),
                         Throws.InstanceOf<MissingManifestResourceException>());
         }
     }

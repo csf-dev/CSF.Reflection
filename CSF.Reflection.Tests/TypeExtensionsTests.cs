@@ -1,10 +1,10 @@
-﻿//
-// AssemblyTypeProviderTests.cs
+//
+// TestTypeExtensions.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2015 CSF Software Limited
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,24 +23,57 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System.Reflection;
+
 using NUnit.Framework;
 
 namespace CSF.Reflection.Tests
 {
-    [TestFixture]
-    public class AssemblyTypeProviderTests
+    [TestFixture, Parallelizable]
+    public class TypeExtensionsTests
     {
+        #region tests
+
         [Test]
-        public void GetTypes_returns_all_types_in_the_current_assembly()
+        public void GetDefaultValue_gets_correct_value_for_value_type()
         {
+            // Arrange
+
+
             // Act
-            var result = new TestAssemblyTypeProvider().GetTypes();
+            var result = typeof(int).GetDefaultValue();
 
             // Assert
-            Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetExportedTypes()));
+            Assert.AreEqual(0, result);
         }
 
-        internal class TestAssemblyTypeProvider : AssemblyExportedTypesProvider { }
+        [Test]
+        public void GetDefaultValue_gets_correct_value_for_reference_type()
+        {
+            // Arrange
+
+
+            // Act
+            var result = typeof(Foo).GetDefaultValue();
+
+            // Assert
+            Assert.AreEqual(null, result);
+        }
+
+        #endregion
+
+        #region contained classes
+
+        class Foo { }
+
+        class Bar : Foo, IMarker { }
+
+        class Baz : Bar, IMarker<int> { }
+
+        interface IMarker { }
+
+        interface IMarker<T> { }
+
+        #endregion
     }
 }
+

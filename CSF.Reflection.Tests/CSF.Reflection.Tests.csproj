@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <ReleaseVersion>2.1.0</ReleaseVersion>
+    <ReleaseVersion>3.0.0</ReleaseVersion>
   </PropertyGroup>
   
   <ItemGroup>
@@ -22,6 +22,8 @@
   
   <ItemGroup>
     <ProjectReference Include="..\CSF.Reflection\CSF.Reflection.csproj" />
+    <ProjectReference Include="..\CSF.ReflectionSpecifications\CSF.ReflectionSpecifications.csproj" />
+    <ProjectReference Include="..\CSF.Reflector\CSF.Reflector.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="TestResource.txt" />

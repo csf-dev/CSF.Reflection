@@ -1,10 +1,10 @@
 ﻿//
-// IDetectsMono.cs
+// AssemblyTypeProviderTests.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 CSF Software Limited
+// Copyright (c) 2019 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,17 +23,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-namespace CSF.Reflection
+using System.Reflection;
+using NUnit.Framework;
+
+namespace CSF.Reflection.Tests
 {
-    /// <summary>
-    /// A service which detects/indicates whether or not the Mono framework is in use or not.
-    /// </summary>
-    public interface IDetectsMono
+    [TestFixture,Parallelizable]
+    public class AssemblyAllTypesProviderTests
     {
-        /// <summary>
-        /// Gets a value indicating whether the current runtime is the Mono framework.
-        /// </summary>
-        /// <returns><c>true</c>, if the current execution environment is using the Mono framework, <c>false</c> otherwise.</returns>
-        bool IsExecutingWithMono();
+        [Test]
+        public void GetTypes_returns_all_types_in_the_current_assembly()
+        {
+            // Act
+            var result = new TestAssemblyTypeProvider().GetTypes();
+
+            // Assert
+            Assert.That(result, Is.EquivalentTo(Assembly.GetExecutingAssembly().GetTypes()));
+        }
+
+        internal class TestAssemblyTypeProvider : AssemblyAllTypesProvider { }
     }
 }

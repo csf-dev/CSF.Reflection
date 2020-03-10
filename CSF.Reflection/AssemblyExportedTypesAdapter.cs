@@ -1,10 +1,10 @@
 ﻿//
-// IsInterfaceSpecification.cs
+// AssemblyExportedTypesAdapter.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2020 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,24 +24,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using CSF.Specifications;
 
 namespace CSF.Reflection
 {
     /// <summary>
-    /// Specification for a <c>System.Type</c> which matches interfaces.
+    /// An object which gets all of the exported types provided by
+    /// an assembly specified within its constructor.
     /// </summary>
-    public class IsInterfaceSpecification : SpecificationExpression<Type>
+    public class AssemblyExportedTypesAdapter : IGetsTypes
     {
+        readonly Assembly assembly;
+
         /// <summary>
-        /// Gets the match expression.
+        /// Get a collection of types.
         /// </summary>
-        /// <returns>The expression.</returns>
-        public override Expression<Func<Type, bool>> GetExpression()
+        /// <returns>The types.</returns>
+        public IReadOnlyCollection<Type> GetTypes()
         {
-            return x => x.GetTypeInfo().IsInterface;
+            return assembly.ExportedTypes.ToArray();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssemblyExportedTypesAdapter"/> class.
+        /// </summary>
+        /// <param name="assembly">The assembly to search for types.</param>
+        public AssemblyExportedTypesAdapter(Assembly assembly)
+        {
+            this.assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
         }
     }
 }
