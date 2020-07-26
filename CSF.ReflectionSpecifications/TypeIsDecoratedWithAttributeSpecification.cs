@@ -43,7 +43,7 @@ namespace CSF.Reflection
         /// <returns>The expression.</returns>
         public Expression<Func<Type, bool>> GetExpression()
         {
-            return x => x.GetCustomAttribute(attributeType) != null;
+            return x => x.GetTypeInfo().GetCustomAttribute(attributeType) != null;
         }
 
         /// <summary>

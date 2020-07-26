@@ -24,7 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using CSF.Specifications;
 
 namespace CSF.Reflection
@@ -40,8 +42,14 @@ namespace CSF.Reflection
         /// <returns>The expression.</returns>
         public Expression<Func<Type, bool>> GetExpression()
         {
-            return x => x.GetConstructor(Type.EmptyTypes) != null
-                     && !x.IsAbstract;
+#if NETSTANDARD1_0
+            return x => (!x.GetTypeInfo().DeclaredConstructors.Any()
+                      || x.GetTypeInfo().DeclaredConstructors.Any(c => c.IsPublic && !c.GetParameters().Any()))
+                     && !x.GetTypeInfo().IsAbstract;
+#else
+            return x => x.GetTypeInfo().GetConstructor(new Type[0]) != null
+                     && !x.GetTypeInfo().IsAbstract;
+#endif
         }
     }
 }

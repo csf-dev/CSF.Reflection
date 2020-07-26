@@ -43,7 +43,7 @@ namespace CSF.Reflection
         {
             return x => x.GetTypeInfo().IsClass
                      && !x.GetTypeInfo().IsAbstract
-                     && !typeof(Delegate).IsAssignableFrom(x);
+                     && !typeof(Delegate).GetTypeInfo().IsAssignableFrom(x.GetTypeInfo());
         }
     }
 }
