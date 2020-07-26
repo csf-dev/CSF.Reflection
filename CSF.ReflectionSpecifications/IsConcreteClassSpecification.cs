@@ -31,7 +31,7 @@ using CSF.Specifications;
 namespace CSF.Reflection
 {
     /// <summary>
-    /// Specification for a <c>System.Type</c> which matches concrete types (non-abstract classes).
+    /// Specification for a <c>System.Type</c> which matches concrete (non-abstract) classes.
     /// </summary>
     public class IsConcreteClassSpecification : ISpecificationExpression<Type>
     {

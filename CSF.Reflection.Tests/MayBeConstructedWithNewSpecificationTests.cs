@@ -1,5 +1,5 @@
 ﻿//
-// TypeHasPublicParameterlessConstructorSpecificationTests.cs
+// MayBeConstructedWithNewSpecificationTests.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
@@ -30,54 +30,54 @@ using NUnit.Framework;
 namespace CSF.Reflection.Tests
 {
     [TestFixture,Parallelizable]
-    public class TypeHasPublicParameterlessConstructorSpecificationTests
+    public class MayBeConstructedWithNewSpecificationTests
     {
         [Test]
         public void Matches_returns_true_for_a_class_with_no_declared_constructor()
         {
-            var sut = new TypeHasPublicParameterlessConstructorSpecification();
+            var sut = new MayBeConstructedWithNewSpecification();
             Assert.That(() => sut.Matches(typeof(NoConstructor)), Is.True);
         }
 
         [Test]
         public void Matches_returns_true_for_a_class_with_one_declared_parameterless_constructor()
         {
-            var sut = new TypeHasPublicParameterlessConstructorSpecification();
+            var sut = new MayBeConstructedWithNewSpecification();
             Assert.That(() => sut.Matches(typeof(ParameterlessConstructor)), Is.True);
         }
 
         [Test]
         public void Matches_returns_true_for_a_class_with_two_declared_constructors_where_one_is_parameterless()
         {
-            var sut = new TypeHasPublicParameterlessConstructorSpecification();
+            var sut = new MayBeConstructedWithNewSpecification();
             Assert.That(() => sut.Matches(typeof(ParameterlessAndNonParameterlessConstructor)), Is.True);
         }
 
         [Test]
         public void Matches_returns_false_for_a_class_with_one_declared_non_parameterless_constructor()
         {
-            var sut = new TypeHasPublicParameterlessConstructorSpecification();
+            var sut = new MayBeConstructedWithNewSpecification();
             Assert.That(() => sut.Matches(typeof(NoParameterlessConstructor)), Is.False);
         }
 
         [Test]
         public void Matches_returns_false_for_a_class_with_one_declared_private_parameterless_constructor()
         {
-            var sut = new TypeHasPublicParameterlessConstructorSpecification();
+            var sut = new MayBeConstructedWithNewSpecification();
             Assert.That(() => sut.Matches(typeof(PrivateConstructor)), Is.False);
         }
 
         [Test]
         public void Matches_returns_false_for_a_class_with_one_declared_protected_parameterless_constructor()
         {
-            var sut = new TypeHasPublicParameterlessConstructorSpecification();
+            var sut = new MayBeConstructedWithNewSpecification();
             Assert.That(() => sut.Matches(typeof(ProtectedConstructor)), Is.False);
         }
 
         [Test]
         public void Matches_returns_false_for_an_abstract_class()
         {
-            var sut = new TypeHasPublicParameterlessConstructorSpecification();
+            var sut = new MayBeConstructedWithNewSpecification();
             Assert.That(() => sut.Matches(typeof(AbstractClass)), Is.False);
         }
 
@@ -109,6 +109,9 @@ namespace CSF.Reflection.Tests
             protected ProtectedConstructor() { }
         }
 
-        abstract class AbstractClass { }
+        abstract class AbstractClass
+        {
+            public AbstractClass() { }
+        }
     }
 }

@@ -30,15 +30,26 @@ using System.Reflection;
 
 namespace CSF.Reflection
 {
+    /// <summary>
+    /// Specification for types which are decorated with a specified attribute.
+    /// </summary>
     public class TypeIsDecoratedWithAttributeSpecification : ISpecificationExpression<Type>
     {
         readonly Type attributeType;
 
+        /// <summary>
+        /// Gets the match expression.
+        /// </summary>
+        /// <returns>The expression.</returns>
         public Expression<Func<Type, bool>> GetExpression()
         {
             return x => x.GetCustomAttribute(attributeType) != null;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeIsDecoratedWithAttributeSpecification"/> class.
+        /// </summary>
+        /// <param name="attributeType">The attribute type for which to test.</param>
         public TypeIsDecoratedWithAttributeSpecification(Type attributeType)
         {
             this.attributeType = attributeType ?? throw new ArgumentNullException(nameof(attributeType));

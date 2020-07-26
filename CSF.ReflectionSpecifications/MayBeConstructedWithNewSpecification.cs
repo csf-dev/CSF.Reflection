@@ -29,11 +29,19 @@ using CSF.Specifications;
 
 namespace CSF.Reflection
 {
-    public class TypeHasPublicParameterlessConstructorSpecification : ISpecificationExpression<Type>
+    /// <summary>
+    /// Specification for types which may be constructed with the <c>new</c> keyword.
+    /// </summary>
+    public class MayBeConstructedWithNewSpecification : ISpecificationExpression<Type>
     {
+        /// <summary>
+        /// Gets the match expression.
+        /// </summary>
+        /// <returns>The expression.</returns>
         public Expression<Func<Type, bool>> GetExpression()
         {
-            return x => x.GetConstructor(Type.EmptyTypes) != null;
+            return x => x.GetConstructor(Type.EmptyTypes) != null
+                     && !x.IsAbstract;
         }
     }
 }

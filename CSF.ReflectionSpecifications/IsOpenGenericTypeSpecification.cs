@@ -29,8 +29,15 @@ using CSF.Specifications;
 
 namespace CSF.Reflection
 {
+    /// <summary>
+    /// Specification for types which are open generics (aka generic type definitions)
+    /// </summary>
     public class IsOpenGenericTypeSpecification : ISpecificationExpression<Type>
     {
+        /// <summary>
+        /// Gets the match expression.
+        /// </summary>
+        /// <returns>The expression.</returns>
         public Expression<Func<Type, bool>> GetExpression()
         {
             return x => x.IsGenericTypeDefinition;
