@@ -1,10 +1,10 @@
 ﻿//
-// IsConcreteSpecification.cs
+// TypeIsDecoratedWithAttributeSpecification.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2020 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,25 +25,34 @@
 // THE SOFTWARE.
 using System;
 using System.Linq.Expressions;
-using System.Reflection;
 using CSF.Specifications;
+using System.Reflection;
 
 namespace CSF.Reflection
 {
     /// <summary>
-    /// Specification for a <c>System.Type</c> which matches concrete (non-abstract) classes.
+    /// Specification for types which are decorated with a specified attribute.
     /// </summary>
-    public class IsConcreteClassSpecification : ISpecificationExpression<Type>
+    public class TypeIsDecoratedWithAttributeSpecification : ISpecificationExpression<Type>
     {
+        readonly Type attributeType;
+
         /// <summary>
         /// Gets the match expression.
         /// </summary>
         /// <returns>The expression.</returns>
         public Expression<Func<Type, bool>> GetExpression()
         {
-            return x => x.GetTypeInfo().IsClass
-                     && !x.GetTypeInfo().IsAbstract
-                     && !typeof(Delegate).GetTypeInfo().IsAssignableFrom(x.GetTypeInfo());
+            return x => x.GetTypeInfo().GetCustomAttribute(attributeType) != null;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeIsDecoratedWithAttributeSpecification"/> class.
+        /// </summary>
+        /// <param name="attributeType">The attribute type for which to test.</param>
+        public TypeIsDecoratedWithAttributeSpecification(Type attributeType)
+        {
+            this.attributeType = attributeType ?? throw new ArgumentNullException(nameof(attributeType));
         }
     }
 }

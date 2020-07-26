@@ -1,10 +1,10 @@
 ﻿//
-// IsConcreteSpecification.cs
+// IsOpenGenericTypeSpecificationTests.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2020 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,26 +24,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq.Expressions;
-using System.Reflection;
 using CSF.Specifications;
+using NUnit.Framework;
 
-namespace CSF.Reflection
+namespace CSF.Reflection.Tests
 {
-    /// <summary>
-    /// Specification for a <c>System.Type</c> which matches concrete (non-abstract) classes.
-    /// </summary>
-    public class IsConcreteClassSpecification : ISpecificationExpression<Type>
+    [TestFixture,Parallelizable]
+    public class IsOpenGenericTypeSpecificationTests
     {
-        /// <summary>
-        /// Gets the match expression.
-        /// </summary>
-        /// <returns>The expression.</returns>
-        public Expression<Func<Type, bool>> GetExpression()
+        [Test]
+        public void Matches_returns_true_for_an_open_generic_type()
         {
-            return x => x.GetTypeInfo().IsClass
-                     && !x.GetTypeInfo().IsAbstract
-                     && !typeof(Delegate).GetTypeInfo().IsAssignableFrom(x.GetTypeInfo());
+            var sut = new IsOpenGenericTypeSpecification();
+            Assert.That(() => sut.Matches(typeof(GenericClass<>)), Is.True);
         }
+
+        [Test]
+        public void Matches_returns_false_for_an_closed_generic_type()
+        {
+            var sut = new IsOpenGenericTypeSpecification();
+            Assert.That(() => sut.Matches(typeof(GenericClass<string>)), Is.False);
+        }
+
+        [Test]
+        public void Matches_returns_false_for_a_non_generic_type()
+        {
+            var sut = new IsOpenGenericTypeSpecification();
+            Assert.That(() => sut.Matches(typeof(NonGenericClass)), Is.False);
+        }
+
+        class GenericClass<T> { }
+
+        class NonGenericClass { }
     }
 }

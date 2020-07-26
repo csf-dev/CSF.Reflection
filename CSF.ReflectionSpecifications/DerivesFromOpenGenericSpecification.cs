@@ -33,8 +33,10 @@ using CSF.Specifications;
 namespace CSF.Reflection
 {
     /// <summary>
-    /// Specification for a <c>System.Type</c> which matches types which derive from a generic form of an
-    /// open-generic interface.
+    /// <para>
+    /// Specification for a <c>System.Type</c> which matches types that derive from a closed form of an
+    /// open-generic type.
+    /// </para>
     /// </summary>
     public class DerivesFromOpenGenericSpecification : ISpecificationExpression<Type>
     {

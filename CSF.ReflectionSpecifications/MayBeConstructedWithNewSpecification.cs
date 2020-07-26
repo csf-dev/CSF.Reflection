@@ -1,10 +1,10 @@
 ﻿//
-// IsConcreteSpecification.cs
+// TypeHasPublicParameterlessConstructorSpecification.cs
 //
 // Author:
 //       Craig Fowler <craig@csf-dev.com>
 //
-// Copyright (c) 2019 Craig Fowler
+// Copyright (c) 2020 Craig Fowler
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,13 +27,16 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using CSF.Specifications;
+#if NETSTANDARD1_0
+using System.Linq;
+#endif
 
 namespace CSF.Reflection
 {
     /// <summary>
-    /// Specification for a <c>System.Type</c> which matches concrete (non-abstract) classes.
+    /// Specification for types which may be constructed with the <c>new</c> keyword.
     /// </summary>
-    public class IsConcreteClassSpecification : ISpecificationExpression<Type>
+    public class MayBeConstructedWithNewSpecification : ISpecificationExpression<Type>
     {
         /// <summary>
         /// Gets the match expression.
@@ -41,9 +44,14 @@ namespace CSF.Reflection
         /// <returns>The expression.</returns>
         public Expression<Func<Type, bool>> GetExpression()
         {
-            return x => x.GetTypeInfo().IsClass
-                     && !x.GetTypeInfo().IsAbstract
-                     && !typeof(Delegate).GetTypeInfo().IsAssignableFrom(x.GetTypeInfo());
+#if NETSTANDARD1_0
+            return x => (!x.GetTypeInfo().DeclaredConstructors.Any()
+                      || x.GetTypeInfo().DeclaredConstructors.Any(c => c.IsPublic && !c.GetParameters().Any()))
+                     && !x.GetTypeInfo().IsAbstract;
+#else
+            return x => x.GetTypeInfo().GetConstructor(new Type[0]) != null
+                     && !x.GetTypeInfo().IsAbstract;
+#endif
         }
     }
 }
