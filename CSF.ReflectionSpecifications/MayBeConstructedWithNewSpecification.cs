@@ -24,10 +24,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using CSF.Specifications;
+#if NETSTANDARD1_0
+using System.Linq;
+#endif
 
 namespace CSF.Reflection
 {
