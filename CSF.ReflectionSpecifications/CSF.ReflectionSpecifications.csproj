@@ -6,7 +6,7 @@
     <PackageId>CSF.ReflectionSpecifications</PackageId>
     <Authors>craigfowler</Authors>
     <Description>Specification types (see CSF.Specifications) for filtering types.  Most likely useful when performing assembly-scanning.</Description>
-    <ReleaseVersion>3.0.0</ReleaseVersion>
+    <ReleaseVersion>3.1.0</ReleaseVersion>
     <Version>$(ReleaseVersion)</Version>
     <PackageVersion>$(ReleaseVersion)</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
