@@ -35,4 +35,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TestResourceType.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="IsConcreteClassSpecificationTests.cs" />
+  </ItemGroup>
 </Project>
