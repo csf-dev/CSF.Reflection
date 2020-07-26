@@ -41,7 +41,9 @@ namespace CSF.Reflection
         /// <returns>The expression.</returns>
         public Expression<Func<Type, bool>> GetExpression()
         {
-            return x => x.GetTypeInfo().IsClass && !x.GetTypeInfo().IsAbstract;
+            return x => x.GetTypeInfo().IsClass
+                     && !x.GetTypeInfo().IsAbstract
+                     && !typeof(Delegate).IsAssignableFrom(x);
         }
     }
 }
